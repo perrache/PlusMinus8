@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PlusMinusApplication{% endblock %}
+
+{% block body %}
+    {{ content1|raw }}
+    <h1 class="text-primary-emphasis">System PlusMinus</h1>
+    <h4>Piotr Lewandowski</h4>
+    <h4>{{ currClock }}</h4>
+    <h6 class="d-none d-xxl-block">Bootstrap screen size: xxl</h6>
+    <h6 class="d-none d-xl-block d-xxl-none">Bootstrap screen size: xl</h6>
+    <h6 class="d-none d-lg-block d-xl-none">Bootstrap screen size: lg</h6>
+    <h6 class="d-none d-md-block d-lg-none">Bootstrap screen size: md</h6>
+    <h6 class="d-none d-sm-block d-md-none">Bootstrap screen size: sm</h6>
+    <h6 class="d-block d-sm-none">Bootstrap screen size: xs</h6>
+    {{ closeDiv|raw }}
+{% endblock %}

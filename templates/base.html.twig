@@ -10,8 +10,25 @@
     {% block javascripts %}{% endblock %}
 </head>
 <body>
+{% set curPath = app.current_route %}
+{% set content1 = '<div class="col-xxl-auto gy-2">' %}
+{% set content2 = '<div class="col-xxl-auto gy-2">' %}
+{% set menu = '<div class="col-xxl-auto gy-2">' %}
+{% set closeDiv = '</div>' %}
 <div class="container">
-    {% block body %}{% endblock %}
+    {% include('header.html.twig') %}
+    <div class="row gx-4">  {# default #}
+        {{ menu|raw }}
+        {% include('menu.html.twig') %}
+        {{ closeDiv|raw }}
+        {% if curPath|slice(0,4) == 'app_' %}   {# ekrany CRUD w content1 obok menu #}
+            {{ content1|raw }}
+            {% block crud %}{% endblock %}
+            {{ closeDiv }}
+        {% else %}
+            {% block body %}{% endblock %}
+        {% endif %}                             {# pozostałe ekrany zawierają divy z klasami #}
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

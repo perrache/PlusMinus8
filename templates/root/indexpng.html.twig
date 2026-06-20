@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PlusMinusApplication{% endblock %}
+
+{% block body %}
+    {{ content1|raw }}
+    <h1>System PlusMinus</h1>
+    <h4>Piotr Lewandowski</h4>
+    <h4>{{ currClock }}</h4>
+    <img src="PM.png" alt="struktura bazy" class="img-fluid" style="width: 800px; height: 600px;">
+    {{ closeDiv|raw }}
+{% endblock %}
