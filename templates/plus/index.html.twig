@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plus index{% endblock %}
+
+{% block crud %}
+    <h1>Plus index</h1>
+    <div class="new"><a href="{{ path('app_plus_new') }}">Create new</a></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Value</th>
+            <th>Dat</th>
+            <th>Comment</th>
+            <th>Refer</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for plu in pluses %}
+            <tr>
+                <td>{{ plu.id }}</td>
+                <td>{{ plu.value }}</td>
+                <td>{{ plu.dat ? plu.dat|date('d-m-Y') : '' }}</td>
+                <td>{{ plu.comment }}</td>
+                <td>{{ plu.refer }}</td>
+                <td>
+                    <a href="{{ path('app_plus_show', {'id': plu.id}) }}">show</a>
+                    <a href="{{ path('app_plus_edit', {'id': plu.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="new"><a href="{{ path('app_plus_new') }}">Create new</a></div>
+{% endblock %}
