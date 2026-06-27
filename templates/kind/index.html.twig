@@ -4,33 +4,33 @@
 
 {% block crud %}
     <h1>Kind index</h1>
-    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_kind_new') }}">Create new</a></div>
 
-    <table class="table">
-        <thead>
+    {{ Table|raw }}
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for kind in kinds %}
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>actions</th>
+            <td>{{ kind.id }}</td>
+            <td>{{ kind.name }}</td>
+            <td>
+                <a href="{{ path('app_kind_show', {'id': kind.id}) }}">show</a>
+                <a href="{{ path('app_kind_edit', {'id': kind.id}) }}">edit</a>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        {% for kind in kinds %}
-            <tr>
-                <td>{{ kind.id }}</td>
-                <td>{{ kind.name }}</td>
-                <td>
-                    <a href="{{ path('app_kind_show', {'id': kind.id}) }}">show</a>
-                    <a href="{{ path('app_kind_edit', {'id': kind.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    {{ closeTable|raw }}
 
-    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_kind_new') }}">Create new</a></div>
 {% endblock %}

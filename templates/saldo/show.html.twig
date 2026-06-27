@@ -5,26 +5,26 @@
 {% block crud %}
     <h1>Saldo</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ saldo.id }}</td>
-            </tr>
-            <tr>
-                <th>Value</th>
-                <td>{{ saldo.value }}</td>
-            </tr>
-            <tr>
-                <th>Dat</th>
-                <td>{{ saldo.dat ? saldo.dat|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Curid</th>
-                <td>{{ saldo.curid }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ Table|raw }}
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ saldo.id }}</td>
+    </tr>
+    <tr>
+        <th>Value</th>
+        <td>{{ saldo.value }}</td>
+    </tr>
+    <tr>
+        <th>Dat</th>
+        <td>{{ saldo.dat ? saldo.dat|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Curid</th>
+        <td>{{ saldo.curid }}</td>
+    </tr>
+    </tbody>
+    {{ closeTable|raw }}
 
     <a href="{{ path('app_saldo_index') }}">back to list</a>
 

@@ -5,26 +5,26 @@
 {% block crud %}
     <h1>Minus</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ minu.id }}</td>
-            </tr>
-            <tr>
-                <th>Value</th>
-                <td>{{ minu.value }}</td>
-            </tr>
-            <tr>
-                <th>Dat</th>
-                <td>{{ minu.dat ? minu.dat|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Comment</th>
-                <td>{{ minu.comment }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ Table|raw }}
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ minu.id }}</td>
+    </tr>
+    <tr>
+        <th>Value</th>
+        <td>{{ minu.value }}</td>
+    </tr>
+    <tr>
+        <th>Dat</th>
+        <td>{{ minu.dat ? minu.dat|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Comment</th>
+        <td>{{ minu.comment }}</td>
+    </tr>
+    </tbody>
+    {{ closeTable|raw }}
 
     <a href="{{ path('app_minus_index') }}">back to list</a>
 

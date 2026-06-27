@@ -5,26 +5,26 @@
 {% block crud %}
     <h1>Plus</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ plu.id }}</td>
-            </tr>
-            <tr>
-                <th>Value</th>
-                <td>{{ plu.value }}</td>
-            </tr>
-            <tr>
-                <th>Dat</th>
-                <td>{{ plu.dat ? plu.dat|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Comment</th>
-                <td>{{ plu.comment }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ Table|raw }}
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ plu.id }}</td>
+    </tr>
+    <tr>
+        <th>Value</th>
+        <td>{{ plu.value }}</td>
+    </tr>
+    <tr>
+        <th>Dat</th>
+        <td>{{ plu.dat ? plu.dat|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Comment</th>
+        <td>{{ plu.comment }}</td>
+    </tr>
+    </tbody>
+    {{ closeTable|raw }}
 
     <a href="{{ path('app_plus_index') }}">back to list</a>
 

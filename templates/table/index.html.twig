@@ -11,44 +11,44 @@
                 {% set iter = '' %}
                 {% for record1 in records1 %}
                     {% if record1.smies != iter %}
-                        <div class="new"><a href="dupa">{{ record1.smies }}</a></div>
+                        <div><a href="dupa">{{ record1.smies }}</a></div>
                         {% set iter = record1.smies %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <table>
+            {{ Table|raw }}
+            <tr>
+                {% for col in records1.(0)|keys %}
+                    {% if col|first != 'x' %}
+                        <th>{{ col|slice(1)|humanize }}</th>
+                    {% endif %}
+                {% endfor %}
+                {% if tab >= 0 %}
+                    <th>&nbsp;</th>
+                {% endif %}
+            </tr>
+            {% for record1 in records1 %}
                 <tr>
-                    {% for col in records1.(0)|keys %}
+                    {% for col in record1|keys %}
                         {% if col|first != 'x' %}
-                            <th>{{ col|slice(1)|humanize }}</th>
+                            {% if col|first == 'n' %}
+                                {% set tdStyle = ' style="text-align: right"' %}
+                            {% elseif col|first == 'c' %}
+                                {% set tdStyle = ' style="text-align: center"' %}
+                            {% else %}
+                                {% set tdStyle = '' %}
+                            {% endif %}
+                            <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
                         {% endif %}
                     {% endfor %}
                     {% if tab >= 0 %}
-                        <th>&nbsp;</th>
+                        <td>
+                            <a href="{{ path('route_sql') }}/{{ tab }}/{{ record1.nid }}"{% if id == record1.nid %} style="color: yellow"{% endif %}>==></a>
+                        </td>
                     {% endif %}
                 </tr>
-                {% for record1 in records1 %}
-                    <tr>
-                        {% for col in record1|keys %}
-                            {% if col|first != 'x' %}
-                                {% if col|first == 'n' %}
-                                    {% set tdStyle = ' style="text-align: right"' %}
-                                {% elseif col|first == 'c' %}
-                                    {% set tdStyle = ' style="text-align: center"' %}
-                                {% else %}
-                                    {% set tdStyle = '' %}
-                                {% endif %}
-                                <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        {% if tab >= 0 %}
-                            <td>
-                                <a href="{{ path('route_sql') }}/{{ tab }}/{{ record1.nid }}"{% if id == record1.nid %} style="color: yellow"{% endif %}>==></a>
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </table>
+            {% endfor %}
+            {{ closeTable|raw }}
         {% else %}
             <h3>no records found</h3>
         {% endif %}
@@ -57,24 +57,24 @@
         <div class="content2">
             <h1>Details</h1>
             <h3>{{ records2|length }} records</h3>
-            <table>
+            {{ Table|raw }}
+            <tr>
+                {% for col in records2.(0)|keys %}
+                    {% if col|first != 'x' %}
+                        <th>{{ col|slice(1)|humanize }}</th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% for record2 in records2 %}
                 <tr>
-                    {% for col in records2.(0)|keys %}
+                    {% for col in record2|keys %}
                         {% if col|first != 'x' %}
-                            <th>{{ col|slice(1)|humanize }}</th>
+                            <td{% if col|first == 'n' %} style="text-align: right"{% elseif col|first == 'c' %} style="text-align: center"{% endif %}>{{ record2.(col) }}</td>
                         {% endif %}
                     {% endfor %}
                 </tr>
-                {% for record2 in records2 %}
-                    <tr>
-                        {% for col in record2|keys %}
-                            {% if col|first != 'x' %}
-                                <td{% if col|first == 'n' %} style="text-align: right"{% elseif col|first == 'c' %} style="text-align: center"{% endif %}>{{ record2.(col) }}</td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
+            {% endfor %}
+            {{ closeTable|raw }}
         </div>
     {% endif %}
 {% endblock %}

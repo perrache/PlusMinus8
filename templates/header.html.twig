@@ -13,20 +13,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('route_root') }}">Link</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ path('route_root') }}">Action</a></li>
-                        <li><a class="dropdown-item" href="{{ path('route_root') }}">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                {% for key, mArray in sqlService.sqlArray %}
+                    {% if (key % 10 == 0) %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">{{ '%02u-'|format(key) }}{{ mArray['title'] }}</a>
+                            <ul class="dropdown-menu">
+                                {% for downkey, mArray in sqlService.sqlArray %}
+                                    {% if key / 10 == downkey // 10 and downkey % 10 != 0 %}
+                                        <li><a class="dropdown-item"
+                                               href="{{ path('route_sql') }}/{{ downkey }}">{{ '%02u-'|format(downkey) }}{{ mArray['title'] }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                         </li>
-                        <li><a class="dropdown-item" href="{{ path('route_root') }}">Something else here</a></li>
-                    </ul>
-                </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>

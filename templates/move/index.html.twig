@@ -4,37 +4,37 @@
 
 {% block crud %}
     <h1>Move index</h1>
-    <div class="new"><a href="{{ path('app_move_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_move_new') }}">Create new</a></div>
 
-    <table class="table">
-        <thead>
+    {{ Table|raw }}
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Value</th>
+        <th>Dat</th>
+        <th>Comment</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for move in moves %}
         <tr>
-            <th>Id</th>
-            <th>Value</th>
-            <th>Dat</th>
-            <th>Comment</th>
-            <th>actions</th>
+            <td>{{ move.id }}</td>
+            <td>{{ move.value }}</td>
+            <td>{{ move.dat ? move.dat|date('d-m-Y') : '' }}</td>
+            <td>{{ move.comment }}</td>
+            <td>
+                <a href="{{ path('app_move_show', {'id': move.id}) }}">show</a>
+                <a href="{{ path('app_move_edit', {'id': move.id}) }}">edit</a>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        {% for move in moves %}
-            <tr>
-                <td>{{ move.id }}</td>
-                <td>{{ move.value }}</td>
-                <td>{{ move.dat ? move.dat|date('d-m-Y') : '' }}</td>
-                <td>{{ move.comment }}</td>
-                <td>
-                    <a href="{{ path('app_move_show', {'id': move.id}) }}">show</a>
-                    <a href="{{ path('app_move_edit', {'id': move.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    {{ closeTable|raw }}
 
-    <div class="new"><a href="{{ path('app_move_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_move_new') }}">Create new</a></div>
 {% endblock %}

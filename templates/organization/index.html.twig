@@ -4,33 +4,33 @@
 
 {% block crud %}
     <h1>Organization index</h1>
-    <div class="new"><a href="{{ path('app_organization_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_organization_new') }}">Create new</a></div>
 
-    <table class="table">
-        <thead>
+    {{ Table|raw }}
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for organization in organizations %}
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>actions</th>
+            <td>{{ organization.id }}</td>
+            <td>{{ organization.name }}</td>
+            <td>
+                <a href="{{ path('app_organization_show', {'id': organization.id}) }}">show</a>
+                <a href="{{ path('app_organization_edit', {'id': organization.id}) }}">edit</a>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        {% for organization in organizations %}
-            <tr>
-                <td>{{ organization.id }}</td>
-                <td>{{ organization.name }}</td>
-                <td>
-                    <a href="{{ path('app_organization_show', {'id': organization.id}) }}">show</a>
-                    <a href="{{ path('app_organization_edit', {'id': organization.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    {{ closeTable|raw }}
 
-    <div class="new"><a href="{{ path('app_organization_new') }}">Create new</a></div>
+    <div><a href="{{ path('app_organization_new') }}">Create new</a></div>
 {% endblock %}

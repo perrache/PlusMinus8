@@ -17,6 +17,8 @@
 {% set content2 = '<div class="col-xxl-auto gy-2">' %}
 {% set menu = '<div class="col-xxl-auto gy-2">' %}
 {% set closeDiv = '</div>' %}
+{% set Table = '<table class="table table-sm table-hover table-bordered">' %}
+{% set closeTable = '</table>' %}
 <div class="container">
     {% include('header.html.twig') %}
     <div class="row gx-5">  {# default = 4 #}
@@ -26,7 +28,7 @@
         {% if curPath|slice(0,4) == 'app_' %}   {# ekrany CRUD w content1 obok menu #}
             {{ content1|raw }}
             {% block crud %}{% endblock %}
-            {{ closeDiv }}
+            {{ closeDiv|raw }}
         {% else %}
             {% block body %}{% endblock %}
         {% endif %}                             {# pozostałe ekrany zawierają divy z klasami #}

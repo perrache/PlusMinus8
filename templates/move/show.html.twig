@@ -5,26 +5,26 @@
 {% block crud %}
     <h1>Move</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ move.id }}</td>
-            </tr>
-            <tr>
-                <th>Value</th>
-                <td>{{ move.value }}</td>
-            </tr>
-            <tr>
-                <th>Dat</th>
-                <td>{{ move.dat ? move.dat|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Comment</th>
-                <td>{{ move.comment }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ Table|raw }}
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ move.id }}</td>
+    </tr>
+    <tr>
+        <th>Value</th>
+        <td>{{ move.value }}</td>
+    </tr>
+    <tr>
+        <th>Dat</th>
+        <td>{{ move.dat ? move.dat|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Comment</th>
+        <td>{{ move.comment }}</td>
+    </tr>
+    </tbody>
+    {{ closeTable|raw }}
 
     <a href="{{ path('app_move_index') }}">back to list</a>
 

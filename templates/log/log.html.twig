@@ -6,15 +6,15 @@
     {% if logs is defined %}
         <div class="content1">
             <h1>LOG</h1>
-            <table>
-                <tbody>
-                {% for log in logs %}
-                    <tr>
-                        <td>{{ log }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {{ Table|raw }}
+            <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            {{ closeTable|raw }}
         </div>
     {% endif %}
 {% endblock %}
