@@ -1,0 +1,26 @@
+a.amenu, a.amenu:link, a.amenu:visited, a.amenu:hover, a.amenu:active {
+    color: cyan;
+    text-decoration: none;
+}
+
+/*table {*/
+/*    border-collapse: collapse;*/
+/*}*/
+
+/*table, th, td {*/
+/*    border: 1px dashed;*/
+/*}*/
+
+/*tr:hover {*/
+/*    background-color: #333;*/
+/*}*/
+
+/*th {*/
+/*    text-align: center;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*td {*/
+/*    text-align: left;*/
+/*    padding: 10px;*/
+/*}*/
