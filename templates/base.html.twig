@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PlusMinus8{% endblock %}</title>
+    {% include('cssInternal.html.twig') %}
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+</head>
+<body>
+{% set curPath = app.current_route %}
+
+<div class="container">
+    <div class="menu">
+        {% include('menu.html.twig') %}
+    </div>
+    {% if curPath|slice(0,4) == 'app_' %}   {# ekrany CRUD w content1 obok menu #}
+        <div class="content1">
+            {% block crud %}{% endblock %}
+        </div>
+    {% else %}
+        {% block body %}{% endblock %}
+    {% endif %}                             {# pozostałe ekrany zawierają divy z klasami #}
+</div>
+</body>
+</html>
