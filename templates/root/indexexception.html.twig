@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plus Minus Application{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        div.content1 {
+            margin-left: 70px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="content1">
+        <h1>System PlusMinus</h1>
+        <h4>Piotr Lewandowski</h4>
+        <h4>{{ currClock }}</h4>
+        <h4>{{ e }}</h4>
+    </div>
+{% endblock %}

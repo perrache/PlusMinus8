@@ -27,4 +27,14 @@ final class RootController extends AbstractController
             'currClock' => $currClock,
         ]);
     }
+
+    #[Route('/exception/{e}', name: 'route_root_exception', methods: ['GET'])]
+    public function indexException(ClockInterface $clock, string $e = ''): Response
+    {
+        $currClock = $clock->withTimeZone('Europe/Warsaw')->now()->format('d-m-Y H:i:s');
+        return $this->render('root/indexexception.html.twig', [
+            'currClock' => $currClock,
+            'e' => $e,
+        ]);
+    }
 }
