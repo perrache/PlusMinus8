@@ -22,7 +22,7 @@ order by skind',
 select t.name stype,
        t.id nid
 from type t
-where t.kind_id = $3
+where t.kind_id = $1
 order by stype',
             'sql3' => '',
         ],
@@ -39,7 +39,7 @@ select a.name saccount,
        a.id nid
 from account a
     join currency c on c.id = a.currency_id
-where a.organization_id = $3
+where a.organization_id = $1
 order by saccount',
             'sql3' => '',
         ],
@@ -54,7 +54,7 @@ order by saccount',
             'sql1' => '
 select k.name skind,
        k.id nid,
-       to_char(sum(m.value), $1) nsuma,
+       to_char(sum(m.value), \'999 999 990"."99\') nsuma,
        count(*) nile
 from minus m
     join type t on t.id = m.type_id
@@ -66,15 +66,15 @@ group by k.name, k.id
 order by skind',
             'sql2' => '
 select k.name||\' / \'||t.name stype,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomm
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
-where c.code = \'PLN\' and t.kind_id = $3
+where c.code = \'PLN\' and t.kind_id = $1
 order by m.dat desc, stype, m.id desc',
             'sql3' => '',
         ],
@@ -83,7 +83,7 @@ order by m.dat desc, stype, m.id desc',
             'sql1' => '
 select k.name||\' / \'||t.name stype,
        t.id nid,
-       to_char(sum(m.value), $1) nsuma,
+       to_char(sum(m.value), \'999 999 990"."99\') nsuma,
        count(*) nile
 from minus m
     join type t on t.id = m.type_id
@@ -95,15 +95,15 @@ group by k.name||\' / \'||t.name, t.id
 order by stype',
             'sql2' => '
 select k.name||\' / \'||t.name stype,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomm
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
-where c.code = \'PLN\' and m.type_id = $3
+where c.code = \'PLN\' and m.type_id = $1
 order by m.dat desc, stype, m.id desc',
             'sql3' => '',
         ],
@@ -113,9 +113,9 @@ order by m.dat desc, stype, m.id desc',
 select tab.oname||\' / \'||tab.aname saccount,
        tab.id nid,
        case c.code when \'PLN\' then \'\' else c.code end swal,
-       to_char(sum(tab.bo), $1) nbo,
-       to_char(sum(tab.val), $1) nsaldo,
-       to_char(sum(tab.val+tab.lt), $1) ndost
+       to_char(sum(tab.bo), \'999 999 990"."99\') nbo,
+       to_char(sum(tab.val), \'999 999 990"."99\') nsaldo,
+       to_char(sum(tab.val+tab.lt), \'999 999 990"."99\') ndost
 from
     (select o.name oname, a.name aname, a.id, a.bo, a.bo val, a.lt, a.currency_id
      from account a
@@ -146,38 +146,38 @@ group by tab.oname||\' / \'||tab.aname, tab.id, c.code
 order by saccount',
             'sql2' => '
 select k.name||\' / \'||t.name stype,
-       to_char(-m.value, $1) nvalue,
+       to_char(-m.value, \'999 999 990"."99\') nvalue,
        m.dat xdat,
-       to_char(m.dat, $2) sdata,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomm
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
-where m.account_id = $3
+where m.account_id = $1
 union all
 select \'+\' stype,
-       to_char(p.value, $1) nvalue,
+       to_char(p.value, \'999 999 990"."99\') nvalue,
        p.dat xdat,
-       to_char(p.dat, $2) sdata,
+       to_char(p.dat, \'DD-MM-YYYY\') sdata,
        p.comment scomm
 from plus p
-where p.account_id = $3
+where p.account_id = $1
 union all
 select \'+-\' stype,
-       to_char(pm.value, $1) nvalue,
+       to_char(pm.value, \'999 999 990"."99\') nvalue,
        pm.dat xdat,
-       to_char(pm.dat, $2) sdata,
+       to_char(pm.dat, \'DD-MM-YYYY\') sdata,
        pm.comment scomm
 from move pm
-where pm.accplus_id = $3
+where pm.accplus_id = $1
 union all
 select \'+-\' stype,
-       to_char(-pm.value, $1) nvalue,
+       to_char(-pm.value, \'999 999 990"."99\') nvalue,
        pm.dat xdat,
-       to_char(pm.dat, $2) sdata,
+       to_char(pm.dat, \'DD-MM-YYYY\') sdata,
        pm.comment scomm
 from move pm
-where pm.accminus_id = $3
+where pm.accminus_id = $1
 order by xdat desc, stype',
             'sql3' => '',
         ],
@@ -186,7 +186,7 @@ order by xdat desc, stype',
             'sql1' => '
 select t.name stransaction,
        t.id nid,
-       to_char(sum(m.value), $1) nsuma,
+       to_char(sum(m.value), \'999 999 990"."99\') nsuma,
        count(*) nile
 from minus m
     join transaction t on t.id = m.transaction_id
@@ -197,14 +197,14 @@ group by t.name, t.id
 order by stransaction',
             'sql2' => '
 select t.name stransaction,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomm
 from minus m
     join transaction t on t.id = m.transaction_id
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
-where c.code = \'PLN\' and t.id = $3
+where c.code = \'PLN\' and t.id = $1
 order by m.dat desc, stransaction, m.id desc',
             'sql3' => '',
         ],
@@ -221,8 +221,8 @@ select oplus.name||\' / \'||aplus.name saccountplus,
        case cplus.code when \'PLN\' then \'\' else cplus.code end swalplus,
        ominus.name||\' / \'||aminus.name saccountminus,
        case cminus.code when \'PLN\' then \'\' else cminus.code end swalminus,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomment
 from move m
     join account aplus on aplus.id = m.accplus_id
@@ -244,8 +244,8 @@ select to_char(m.dat, \'YYYY/MM\') smies,
        r.name stransaction,
        o.name||\' / \'||a.name saccount,
        case c.code when \'PLN\' then \'\' else c.code end swal,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomment,
        m.refer srefer
 from minus m
@@ -263,7 +263,7 @@ order by m.dat desc, m.id desc',
             'title' => 'Minus-Comments-Sum(PLN)',
             'sql1' => '
 select m.comment scomment,
-       to_char(sum(m.value), $1) nsuma,
+       to_char(sum(m.value), \'999 999 990"."99\') nsuma,
        count(*) nile
 from minus m
     join account a on a.id = m.account_id
@@ -281,8 +281,8 @@ select k.name||\' / \'||t.name stype,
        r.name stransaction,
        o.name||\' / \'||a.name saccount,
        case c.code when \'PLN\' then \'\' else c.code end swal,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomment
 from minus m
     join type t on t.id = m.type_id
@@ -304,8 +304,8 @@ select to_char(m.dat, \'YYYY/MM\') smies,
        r.name stransaction,
        o.name||\' / \'||a.name saccount,
        case c.code when \'PLN\' then \'\' else c.code end swal,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomment
 from minus m
     join type t on t.id = m.type_id
@@ -327,8 +327,8 @@ select to_char(m.dat, \'YYYY/MM\') smies,
        r.name stransaction,
        o.name||\' / \'||a.name saccount,
        case c.code when \'PLN\' then \'\' else c.code end swal,
-       to_char(m.value, $1) nvalue,
-       to_char(m.dat, $2) sdata,
+       to_char(m.value, \'999 999 990"."99\') nvalue,
+       to_char(m.dat, \'DD-MM-YYYY\') sdata,
        m.comment scomment,
        m.refer srefer
 from minus m
@@ -356,7 +356,7 @@ order by m.dat desc, m.refer, k.name, t.name, m.id desc',
 select k.name||\' / \'||t.name stype,
        r.name stransaction,
        count(*) nile,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -376,9 +376,9 @@ order by stype, stransaction',
             'title' => 'Bilans(PLN)',
             'sql1' => '
 select t2.mies smies,
-       to_char(sum(t2.valplus), $1) nplus,
-       to_char(sum(t2.valminus), $1) nminus,
-       to_char(sum(t2.valplus - t2.valminus), $1) nsaldo
+       to_char(sum(t2.valplus), \'999 999 990"."99\') nplus,
+       to_char(sum(t2.valminus), \'999 999 990"."99\') nminus,
+       to_char(sum(t2.valplus - t2.valminus), \'999 999 990"."99\') nsaldo
 from (
 select case t1.sign when 1 then t1.val else 0 end valplus,
        case t1.sign when -1 then t1.val else 0 end valminus,
@@ -413,7 +413,7 @@ order by t2.mies nulls last',
 select smies,
        sdata,
        stype,
-       to_char(sum(value), $1) nvalue,
+       to_char(sum(value), \'999 999 990"."99\') nvalue,
        scomment,
        srefer
 from
@@ -448,7 +448,7 @@ order by smies desc nulls last, sdata desc nulls last, stype nulls last, scommen
 select smies,
        sdata,
        stype,
-       to_char(sum(value), $1) nvalue
+       to_char(sum(value), \'999 999 990"."99\') nvalue
 from
     (select to_char(m.dat, \'YYYY/MM\') smies,
             k.name||\' / \'||t.name stype,
@@ -484,7 +484,7 @@ select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
        k.name||\' / \'||t.name stype,
        o.name||\' / \'||a.name saccount,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -504,7 +504,7 @@ select to_char(m.dat, \'YYYY/MM\') smies,
        o.name||\' / \'||a.name saccount,
        k.name skind,
        k.name||\' / \'||t.name stype,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -524,7 +524,7 @@ select k.name skind,
        k.name||\' / \'||t.name stype,
        o.name||\' / \'||a.name saccount,
        to_char(m.dat, \'YYYY/MM\') smies,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -544,7 +544,7 @@ select o.name||\' / \'||a.name saccount,
        k.name skind,
        k.name||\' / \'||t.name stype,
        to_char(m.dat, \'YYYY/MM\') smies,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -564,11 +564,11 @@ select qkind skind,
        qmies smies,
        qvalue nvalue,
        round(qpart * 100) "npart%",
-       to_char(round(qperday / public.ndayinmonth(qmies)), $1) "nper/day"
+       to_char(round(qperday / public.ndayinmonth(qmies)), \'999 999 990"."99\') "nper/day"
 from (
 select k.name qkind,
        to_char(m.dat, \'YYYY/MM\') qmies,
-       to_char(sum(m.value), $1) qvalue,
+       to_char(sum(m.value), \'999 999 990"."99\') qvalue,
        sum(m.value)::numeric / last_value(sum(m.value)) over (partition by k.name) qpart,
        sum(m.value)::numeric qperday
 from minus m
@@ -588,7 +588,7 @@ order by skind nulls last, smies desc nulls last',
             'sql1' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -605,7 +605,7 @@ order by smies desc nulls last, skind nulls last',
             'sql1' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -622,7 +622,7 @@ order by smies desc nulls last, skind nulls last',
             'sql1' => '
 select to_char(m.dat, \'YYYY/MM/DD\') sday,
        k.name skind,
-       to_char(sum(m.value), $1) nvalue
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -634,145 +634,5 @@ order by sday desc nulls last, skind nulls last',
             'sql2' => '',
             'sql3' => '',
         ],
-//        61 => [
-//            'title' => 'Import1float-Errors',
-//            'sql1' => '
-//select to_char(i.valuedate, $2) sidata,
-//       i.value nivalue,
-//       f.value nfvalue,
-//       to_char(f.valuedate, $2) sfdata
-//from import1 i
-//    join import1float f on i.refer = f.refer
-//where i.value <> f.value
-//order by i.id',
-//            'sql2' => '',
-//            'sql3' => '',
-//        ],
-//        62 => [
-//            'title' => 'Import1UniqueControl',
-//            'sql1' => '
-//select i.id nid,
-//       to_char(i.valuedate, $2) "cData Operacji",
-//       to_char(i.postingdate, $2) "cData Księgowania",
-//       case when i.postingdate <> i.valuedate then \'X\' else \'\' end cx,
-//       i.type "sTyp Operacji",
-//       i.contractor||\' \'||i.title "sSzczegóły Operacji",
-//       i.category sKategoria,
-//       to_char(i.value, $1) nKwota,
-//       i.last cLast,
-//       i.use cUse,
-//       i.refer crefer
-//from import1 i
-//where (i.valuedate, i.value) in
-//(select t.valuedate,
-//        t.value
-//from
-//    (select count(*),
-//            valuedate,
-//            value
-//     from import1
-//     group by valuedate, value
-//     having count(*) > 1
-//     ) t
-//)
-//order by i.valuedate desc, i.value, i.id',
-//            'sql2' => '',
-//            'sql3' => '',
-//        ],
-//        36 => [
-//            'title' => 'Minus-Import1-Errors',
-//            'sql1' => '
-//select -sum(value) nvalue,
-//       \'i\' sx
-//from import1
-//where value<0
-//and id not in (315, 287, 363, 486, 511, 512, 534, 537, 538)
-//and valuedate < to_date(\'20-02-2026\', \'DD-MM-YYYY\')
-//union all
-//select sum(value) nvalue,
-//       \'m\' sx
-//from
-//(
-//select value
-//from minus
-//where account_id=1
-//and id not in (62, 125, 196, 239, 240)
-//and dat < to_date(\'20-02-2026\', \'DD-MM-YYYY\')
-//union all
-//select value
-//from move
-//where accminus_id=1
-//and dat < to_date(\'20-02-2026\', \'DD-MM-YYYY\')
-//) t',
-//            'sql2' => '',
-//            'sql3' => '',
-//        ],
-//        36 => [
-//            'title' => 'Saldo-All',
-//            'sql1' => '
-//select o.name||\' / \'||a.name saccount,
-//       case c.code when \'PLN\' then \'\' else c.code end swal,
-//       to_char(s.value, $1) nvalue,
-//       to_char(s.dat, $2) sdata,
-//       s.curid ncurid
-//from saldo s
-//    join account a on a.id = s.account_id
-//    join organization o on o.id = a.organization_id
-//    join currency c on c.id = a.currency_id
-//order by o.name, a.name, s.dat desc, s.id desc',
-//            'sql2' => '',
-//            'sql3' => '',
-//        ],
-//        37 => [
-//            'title' => 'Saldo-Accounts',
-//            'sql1' => '
-//select tab.oname||\' / \'||tab.aname saccount,
-//       tab.id nid,
-//       case c.code when \'PLN\' then \'\' else c.code end swal,
-//       to_char(sum(tab.bo), $1) nbo,
-//       to_char(sum(tab.val), $1) nsaldo,
-//       to_char(sum(tab.val+tab.lt), $1) ndost
-//from
-//    (select o.name oname, a.name aname, a.id, a.bo, a.bo val, a.lt, a.currency_id
-//     from account a
-//         join organization o on o.id = a.organization_id
-//     union all
-//     select o.name oname, a.name aname, a.id, 0 bo, -m.value val, 0 lt, a.currency_id
-//     from minus m
-//         join account a on a.id = m.account_id
-//         join organization o on o.id = a.organization_id
-//     union all
-//     select o.name oname, a.name aname, a.id, 0 bo, p.value val, 0 lt, a.currency_id
-//     from plus p
-//         join account a on a.id = p.account_id
-//         join organization o on o.id = a.organization_id
-//     union all
-//     select o.name oname, a.name aname, a.id, 0 bo, -pm.value val, 0 lt, a.currency_id
-//     from move pm
-//         join account a on a.id = pm.accminus_id
-//         join organization o on o.id = a.organization_id
-//     union all
-//     select o.name oname, a.name aname, a.id, 0 bo, pm.value val, 0 lt, a.currency_id
-//     from move pm
-//         join account a on a.id = pm.accplus_id
-//         join organization o on o.id = a.organization_id
-//     ) tab
-//        join currency c on c.id = tab.currency_id
-//group by tab.oname||\' / \'||tab.aname, tab.id, c.code
-//order by saccount',
-//            'sql2' => '
-//select o.name||\' / \'||a.name saccount,
-//       case c.code when \'PLN\' then \'\' else c.code end swal,
-//       to_char(s.value, $1) nvalue,
-//       to_char(s.dat, $2) sdata,
-//       s.curid ncurid
-//from saldo s
-//    join account a on a.id = s.account_id
-//    join organization o on o.id = a.organization_id
-//    join currency c on c.id = a.currency_id
-//where s.account_id = $3
-//order by o.name, a.name, s.dat desc, s.id desc',
-//            'sql3' => '',
-//        ],
     ];
 }

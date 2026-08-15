@@ -18,17 +18,10 @@ final class TableController extends AbstractController
         $sql1 = $sqlService->sqlArray[$tab]['sql1'];
         $sql2 = $sqlService->sqlArray[$tab]['sql2'];
         $sql3 = $sqlService->sqlArray[$tab]['sql3'];
-        $mask1 = $this->getParameter('app.maska1');
-        $mask2 = $this->getParameter('app.maska2');
-        $mask3 = $this->getParameter('app.maska3');
-//        $tab = empty($sql2) ? -1 : $tab;
         try {
-            $records1 = $sql->dml($sql1, [
-                $mask1,
-                $mask3,
-            ]);
+            $records1 = $sql->dml($sql1, []);
         } catch (\Exception $e) {
-            return $this->redirectToRoute('route_root_exception', ['e' => $e], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
         }
         $callArray = [
             'records1' => $records1,
@@ -39,13 +32,9 @@ final class TableController extends AbstractController
         ];
         if ($id > 0) {
             try {
-                $records2 = $sql->dml($sql2, [
-                    $mask1,
-                    $mask3,
-                    $id,
-                ]);
+                $records2 = $sql->dml($sql2, [$id]);
             } catch (\Exception $e) {
-                return $this->redirectToRoute('route_root_exception', ['e' => $e], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
             }
             $callArray['records2'] = $records2;
         }

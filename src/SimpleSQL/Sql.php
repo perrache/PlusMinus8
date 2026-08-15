@@ -3,6 +3,7 @@
 namespace App\SimpleSQL;
 
 use PgSql\Connection;
+use PgSql\Result;
 
 class Sql
 {
@@ -18,12 +19,12 @@ class Sql
         $this->conn = pg_connect($conn_string);
     }
 
-    public function ddl(string $sql)
+    public function ddl(string $sql): Result
     {
         return pg_query($this->conn, $sql);
     }
 
-    public function dml(string $sql, array $params = [])
+    public function dml(string $sql, array $params = []): array
     {
         return pg_fetch_all(pg_query_params($this->conn, $sql, $params));
     }
