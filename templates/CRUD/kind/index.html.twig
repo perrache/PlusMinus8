@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kind index{% endblock %}
+
+{% block crud %}
+    <h1>Kind index</h1>
+    <table>
+        <tbody>
+        {% for kind in kinds %}
+            <tr>
+                <td>{{ kind.id }}</td>
+                <td>{{ kind.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
