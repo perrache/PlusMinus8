@@ -5,11 +5,26 @@
 {% block crud %}
     <h1>Kind index</h1>
     <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>actions</th>
+        </tr>
+        </thead>
         <tbody>
         {% for kind in kinds %}
             <tr>
                 <td>{{ kind.id }}</td>
                 <td>{{ kind.name }}</td>
+                <td>
+                    <a href="dupa">show</a>
+                    <a href="dupa">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

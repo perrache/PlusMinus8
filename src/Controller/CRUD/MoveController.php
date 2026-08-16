@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/kind')]
-final class KindController extends AbstractController
+final class MoveController extends AbstractController
 {
     #[Route(name: 'app_kind_index', methods: ['GET'])]
     public function index(KindRepository  $kindRepository,
