@@ -3,6 +3,7 @@
 namespace App\Controller\CRUD;
 
 use App\Repository\KindRepository;
+use App\SimpleSQL\Sql;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,12 @@ final class KindController extends AbstractController
 {
     #[Route(name: 'app_kind_index', methods: ['GET'])]
     public function index(KindRepository  $kindRepository,
+                          Sql             $sql,
                           LoggerInterface $logger): Response
     {
         return $this->render('CRUD/kind/index.html.twig', [
             'records' => $kindRepository->findAll($logger, ['name' => 'asc']),
+            'cols' => $sql->columnArray('kind'),
         ]);
     }
 }

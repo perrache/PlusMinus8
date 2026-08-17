@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block crud %}
+    <h1>{% block tablename %}===={% endblock %} index</h1>
+    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+
+    <table>
+        <thead>
+        <tr>
+            {% for col in cols %}
+                <th>{{ col|capitalize }}</th>
+            {% endfor %}
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                {% for col in cols %}
+                    <td>{{ record.(col) }}</td>
+                {% endfor %}
+                <td>
+                    <a href="dupa">show</a>
+                    <a href="dupa">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="0">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

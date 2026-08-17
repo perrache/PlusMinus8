@@ -40,4 +40,14 @@ class Sql
         }
         return $list . ' ';
     }
+
+    public function columnArray(string $tableName): array
+    {
+        $work = pg_meta_data($this->conn, $tableName);
+        $extra = [];
+        foreach ($work as $key => $column) {
+            $extra[] = $key;
+        }
+        return $extra;
+    }
 }
