@@ -2,21 +2,21 @@
 
 namespace App\Controller\CRUD;
 
-use App\Repository\KindRepository;
+use App\Repository\SaldoRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/kind')]
+#[Route('/saldo')]
 final class SaldoController extends AbstractController
 {
-    #[Route(name: 'app_kind_index', methods: ['GET'])]
-    public function index(KindRepository  $kindRepository,
+    #[Route(name: 'app_saldo_index', methods: ['GET'])]
+    public function index(SaldoRepository $saldoRepository,
                           LoggerInterface $logger): Response
     {
-        return $this->render('CRUD/kind/index.html.twig', [
-            'kinds' => $kindRepository->findAll($logger, ['name' => 'asc']),
+        return $this->render('CRUD/saldo/index.html.twig', [
+            'records' => $saldoRepository->findAll($logger, ['dat' => 'desc', 'id' => 'desc']),
         ]);
     }
 }

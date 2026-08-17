@@ -2,21 +2,21 @@
 
 namespace App\Controller\CRUD;
 
-use App\Repository\KindRepository;
+use App\Repository\SourceRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/kind')]
+#[Route('/source')]
 final class SourceController extends AbstractController
 {
-    #[Route(name: 'app_kind_index', methods: ['GET'])]
-    public function index(KindRepository  $kindRepository,
-                          LoggerInterface $logger): Response
+    #[Route(name: 'app_source_index', methods: ['GET'])]
+    public function index(SourceRepository $sourceRepository,
+                          LoggerInterface  $logger): Response
     {
-        return $this->render('CRUD/kind/index.html.twig', [
-            'kinds' => $kindRepository->findAll($logger, ['name' => 'asc']),
+        return $this->render('CRUD/source/index.html.twig', [
+            'records' => $sourceRepository->findAll($logger, ['name' => 'asc']),
         ]);
     }
 }

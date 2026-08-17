@@ -28,4 +28,16 @@ class Sql
     {
         return pg_fetch_all(pg_query_params($this->conn, $sql, $params));
     }
+
+    public function columnList(string $tableName): string
+    {
+        $work = pg_meta_data($this->conn, $tableName);
+        $count = 0;
+        $list = '';
+        foreach ($work as $key => $column) {
+            if (++$count > 1) $list .= ', ';
+            $list .= $key;
+        }
+        return $list . ' ';
+    }
 }

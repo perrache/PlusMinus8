@@ -2,21 +2,21 @@
 
 namespace App\Controller\CRUD;
 
-use App\Repository\KindRepository;
+use App\Repository\MinusRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/kind')]
+#[Route('/minus')]
 final class MinusController extends AbstractController
 {
-    #[Route(name: 'app_kind_index', methods: ['GET'])]
-    public function index(KindRepository  $kindRepository,
+    #[Route(name: 'app_minus_index', methods: ['GET'])]
+    public function index(MinusRepository $minusRepository,
                           LoggerInterface $logger): Response
     {
-        return $this->render('CRUD/kind/index.html.twig', [
-            'kinds' => $kindRepository->findAll($logger, ['name' => 'asc']),
+        return $this->render('CRUD/minus/index.html.twig', [
+            'records' => $minusRepository->findAll($logger, ['dat' => 'desc', 'id' => 'desc']),
         ]);
     }
 }

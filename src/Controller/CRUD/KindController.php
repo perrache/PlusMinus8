@@ -16,7 +16,7 @@ final class KindController extends AbstractController
                           LoggerInterface $logger): Response
     {
         return $this->render('CRUD/kind/index.html.twig', [
-            'kinds' => $kindRepository->findAll($logger, ['name' => 'asc']),
+            'records' => $kindRepository->findAll($logger, ['name' => 'asc']),
         ]);
     }
 }
