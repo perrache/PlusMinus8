@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Kind{% endblock %}
+
+{% block crud %}
+    <h1>Create new Kind</h1>
+
+    <form name="kind" method="post">
+        <table id="kind">
+            <tr>
+                <td><label for="kind_name">Name</label></td>
+                <td><input type="text" id="kind_name" name="kind_name" autocomplete="on" required autofocus/></td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit"/>
+    </form>
+{% endblock %}

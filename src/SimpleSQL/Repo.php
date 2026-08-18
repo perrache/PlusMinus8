@@ -22,7 +22,7 @@ class Repo
             $this->query .= $column . ' ' . $direction;
         }
         $logger->info('###findAll### ' . $this->query);
-        return $this->sql->dml($this->query);
+        return $this->sql->dmlFetch($this->query);
     }
 
     public function findBy(LoggerInterface $logger,
@@ -41,6 +41,6 @@ class Repo
             $this->query .= $column . ' ' . $direction;
         }
         $logger->info('###findBy### ' . $this->query);
-        return $this->sql->dml($this->query);
+        return $this->sql->dmlFetch($this->query);
     }
 }

@@ -19,7 +19,7 @@ final class TableController extends AbstractController
         $sql2 = $sqlService->sqlArray[$tab]['sql2'];
         $sql3 = $sqlService->sqlArray[$tab]['sql3'];
         try {
-            $records1 = $sql->dml($sql1, []);
+            $records1 = $sql->dmlFetch($sql1, []);
         } catch (\Exception $e) {
             return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
         }
@@ -32,7 +32,7 @@ final class TableController extends AbstractController
         ];
         if ($id > 0) {
             try {
-                $records2 = $sql->dml($sql2, [$id]);
+                $records2 = $sql->dmlFetch($sql2, [$id]);
             } catch (\Exception $e) {
                 return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
             }

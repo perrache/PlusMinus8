@@ -19,12 +19,12 @@ class Sql
         $this->conn = pg_connect($conn_string);
     }
 
-    public function ddl(string $sql): Result
+    public function dml(string $sql, array $params = []): Result
     {
-        return pg_query($this->conn, $sql);
+        return pg_query_params($this->conn, $sql, $params);
     }
 
-    public function dml(string $sql, array $params = []): array
+    public function dmlFetch(string $sql, array $params = []): array
     {
         return pg_fetch_all(pg_query_params($this->conn, $sql, $params));
     }
