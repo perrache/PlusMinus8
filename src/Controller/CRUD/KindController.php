@@ -20,7 +20,6 @@ final class KindController extends AbstractController
     {
         return $this->render('CRUD/kind/index.html.twig', [
             'records' => $kindRepository->findAll($logger, ['name' => 'asc']),
-            'cols' => $sql->columnArray('kind'),
         ]);
     }
 

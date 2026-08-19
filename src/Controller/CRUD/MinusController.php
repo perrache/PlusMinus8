@@ -19,7 +19,6 @@ final class MinusController extends AbstractController
     {
         return $this->render('CRUD/minus/index.html.twig', [
             'records' => $minusRepository->findAll($logger, ['dat' => 'desc', 'id' => 'desc']),
-            'cols' => $sql->columnArray('minus'),
         ]);
     }
 }

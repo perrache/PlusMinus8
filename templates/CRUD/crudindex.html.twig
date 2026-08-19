@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block crud %}
+    <h1>{{ block('title') }}</h1>
+    <h3>{{ records|length }} wierszy</h3>
+    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+
+    {% if records.(0) is defined %}
+        <table>
+            <thead>
+            <tr>
+                {% for col in records.(0)|keys %}
+                    <th>{{ col|capitalize }}</th>
+                {% endfor %}
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for record in records %}
+                <tr>
+                    {% for col in record|keys %}
+                        <td>{{ record.(col) }}</td>
+                    {% endfor %}
+                    <td>
+                        <a href="dupa">show</a>
+                        <a href="dupa">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="0">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>no records found</h3>
+    {% endif %}
+
+    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+{% endblock %}
