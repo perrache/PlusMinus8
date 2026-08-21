@@ -15,7 +15,6 @@ final class KindController extends AbstractController
 {
     #[Route(name: 'app_kind_index', methods: ['GET'])]
     public function index(KindRepository  $kindRepository,
-                          Sql             $sql,
                           LoggerInterface $logger): Response
     {
         return $this->render('CRUD/kind/index.html.twig', [
@@ -32,5 +31,15 @@ final class KindController extends AbstractController
             return $this->redirectToRoute('app_kind_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('CRUD/kind/new.html.twig');
+    }
+
+    #[Route('/{id}', name: 'app_kind_show', methods: ['GET'])]
+    public function show(KindRepository  $kindRepository,
+                         LoggerInterface $logger,
+                         int             $id = 0): Response
+    {
+        return $this->render('CRUD/kind/show.html.twig', [
+            'records' => $kindRepository->findBy($logger, ['id' => '= ' . $id], []),
+        ]);
     }
 }

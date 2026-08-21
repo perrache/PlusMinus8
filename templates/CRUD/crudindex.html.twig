@@ -3,7 +3,7 @@
 {% block crud %}
     <h1>{{ block('title') }}</h1>
     <h3>{{ records|length }} wierszy</h3>
-    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+    <div class="new"><a href="{{ path('app_' ~ block('tablename') ~ '_new') }}">Create new</a></div>
 
     {% if records.(0) is defined %}
         <table>
@@ -22,7 +22,7 @@
                         <td>{{ record.(col) }}</td>
                     {% endfor %}
                     <td>
-                        <a href="dupa">show</a>
+                        <a href="{{ path('app_' ~ block('tablename') ~ '_show', {'id': record.id}) }}">show</a>
                         <a href="dupa">edit</a>
                     </td>
                 </tr>
@@ -37,5 +37,5 @@
         <h3>no records found</h3>
     {% endif %}
 
-    <div class="new"><a href="{{ path('app_kind_new') }}">Create new</a></div>
+    <div class="new"><a href="{{ path('app_' ~ block('tablename') ~ '_new') }}">Create new</a></div>
 {% endblock %}

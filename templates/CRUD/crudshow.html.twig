@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block crud %}
+    <h1>{{ block('title') }}</h1>
+
+    {% if records.(0) is defined %}
+    <table>
+        <tbody>
+        {% for col in records.(0)|keys %}
+            <tr>
+                <th>{{ col|capitalize }}</th>
+                <td>{{ records.(0).(col) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <h3>no record found</h3>
+    {% endif %}
+
+    <a href="{{ path('app_' ~ block('tablename') ~ '_index') }}">back to list</a>
+{% endblock %}
