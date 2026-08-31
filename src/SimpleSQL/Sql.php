@@ -38,7 +38,21 @@ class Sql
             if (++$count > 1) $list .= ', ';
             $list .= $key;
         }
-        return $list . ' ';
+        return $list;
+    }
+
+    public function columnListNotID(string $tableName): string
+    {
+        $work = pg_meta_data($this->conn, $tableName);
+        $count = 0;
+        $list = '';
+        foreach ($work as $key => $column) {
+            if ($key != 'id') {
+                if (++$count > 1) $list .= ', ';
+                $list .= $key;
+            }
+        }
+        return $list;
     }
 
     public function columnArray(string $tableName): array
@@ -47,6 +61,16 @@ class Sql
         $extra = [];
         foreach ($work as $key => $column) {
             $extra[] = $key;
+        }
+        return $extra;
+    }
+
+    public function columnArrayNotID(string $tableName): array
+    {
+        $work = pg_meta_data($this->conn, $tableName);
+        $extra = [];
+        foreach ($work as $key => $column) {
+            if ($key != 'id') $extra[] = $key;
         }
         return $extra;
     }

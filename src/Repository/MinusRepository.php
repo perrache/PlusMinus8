@@ -10,7 +10,7 @@ class MinusRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('minus');
-        $this->query = 'select ' . $this->columns . 'from minus ';
+        $this->findColumns = $this->sql->columnList('minus');
+        $this->findQuery = 'select ' . $this->findColumns . ' from minus ';
     }
 }

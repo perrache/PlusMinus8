@@ -10,7 +10,7 @@ class AccountRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('account');
-        $this->query = 'select ' . $this->columns . 'from account ';
+        $this->findColumns = $this->sql->columnList('account');
+        $this->findQuery = 'select ' . $this->findColumns . 'from account ';
     }
 }

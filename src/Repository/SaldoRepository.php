@@ -10,7 +10,7 @@ class SaldoRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('saldo');
-        $this->query = 'select ' . $this->columns . 'from saldo ';
+        $this->findColumns = $this->sql->columnList('saldo');
+        $this->findQuery = 'select ' . $this->findColumns . 'from saldo ';
     }
 }

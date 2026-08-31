@@ -3,7 +3,6 @@
 namespace App\Controller\CRUD;
 
 use App\Repository\KindRepository;
-use App\SimpleSQL\Sql;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +22,12 @@ final class KindController extends AbstractController
     }
 
     #[Route('/new', name: 'app_kind_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,
-                        Sql     $sql): Response
+    public function new(Request         $request,
+                        KindRepository  $kindRepository,
+                        LoggerInterface $logger): Response
     {
         if ($request->getMethod() === 'POST') {
-            $sql->dml('insert into kind (name) values ($1)', [$request->getPayload()->get('kind_name', 'default')]);
+            $kindRepository->sqlInsert($logger);
             return $this->redirectToRoute('app_kind_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('CRUD/kind/new.html.twig');

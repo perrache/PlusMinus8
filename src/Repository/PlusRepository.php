@@ -10,7 +10,7 @@ class PlusRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('plus');
-        $this->query = 'select ' . $this->columns . 'from plus ';
+        $this->findColumns = $this->sql->columnList('plus');
+        $this->findQuery = 'select ' . $this->findColumns . 'from plus ';
     }
 }

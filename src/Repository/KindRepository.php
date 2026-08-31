@@ -10,7 +10,22 @@ class KindRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('kind');
-        $this->query = 'select ' . $this->columns . 'from kind ';
+
+        $this->tableName = 'kind';
+
+        $this->findColumns = $this->sql->columnList($this->tableName);
+
+        $this->findQuery = 'select ';
+        $this->findQuery .= $this->findColumns;
+        $this->findQuery .= ' from ';
+        $this->findQuery .= $this->tableName;
+        $this->findQuery .= ' ';
+
+        $this->insertQuery = 'insert into';
+        $this->insertQuery .= ' ';
+        $this->insertQuery .= $this->tableName;
+        $this->insertQuery .= ' (';
+        $this->insertQuery .= $this->sql->columnListNotID($this->tableName);
+        $this->insertQuery .= ') ';
     }
 }

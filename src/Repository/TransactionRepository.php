@@ -10,7 +10,7 @@ class TransactionRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->columns = $this->sql->columnList('transaction');
-        $this->query = 'select ' . $this->columns . 'from transaction ';
+        $this->findColumns = $this->sql->columnList('transaction');
+        $this->findQuery = 'select ' . $this->findColumns . 'from transaction ';
     }
 }
