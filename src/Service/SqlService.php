@@ -7,9 +7,6 @@ class SqlService
     public array $sqlArray = [
         10 => [
             'title' => 'Dictionary',
-            'sql1' => '',
-            'sql2' => '',
-            'sql3' => '',
         ],
         11 => [
             'title' => 'Dictionary-Kind-Type',
@@ -25,6 +22,12 @@ from type t
 where t.kind_id = $1
 order by stype',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         12 => [
             'title' => 'Dictionary-Organization-Account',
@@ -42,20 +45,23 @@ from account a
 where a.organization_id = $1
 order by saccount',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         20 => [
             'title' => 'Turnover',
-            'sql1' => '',
-            'sql2' => '',
-            'sql3' => '',
         ],
         21 => [
             'title' => 'Turnover-Kinds(PLN)',
             'sql1' => '
 select k.name skind,
        k.id nid,
-       to_char(sum(m.value), \'999 999 990"."99\') nsuma,
-       count(*) nile
+       count(*) nile,
+       to_char(sum(m.value), \'999 999 990"."99\') nsuma
 from minus m
     join type t on t.id = m.type_id
     join kind k on k.id = t.kind_id
@@ -77,6 +83,43 @@ from minus m
 where c.code = \'PLN\' and t.kind_id = $1
 order by m.dat desc, stype, m.id desc',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+                2 => [
+                    'name' => 'Suma/Type',
+                    'sql' => '
+select k.name||\' / \'||t.name stype,
+       count(*) nile,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
+from minus m
+    join type t on t.id = m.type_id
+    join kind k on k.id = t.kind_id
+    join account a on a.id = m.account_id
+    join currency c on c.id = a.currency_id
+where c.code = \'PLN\' and t.kind_id = $1
+group by k.name, t.name
+order by stype',
+                ],
+                3 => [
+                    'name' => 'Suma/Type/Comm',
+                    'sql' => '
+select k.name||\' / \'||t.name stype,
+       m.comment scomm,
+       count(*) nile,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue
+from minus m
+    join type t on t.id = m.type_id
+    join kind k on k.id = t.kind_id
+    join account a on a.id = m.account_id
+    join currency c on c.id = a.currency_id
+where c.code = \'PLN\' and t.kind_id = $1
+group by k.name, t.name, m.comment
+order by stype, scomm',
+                ],
+            ],
         ],
         22 => [
             'title' => 'Turnover-Types(PLN)',
@@ -106,6 +149,12 @@ from minus m
 where c.code = \'PLN\' and m.type_id = $1
 order by m.dat desc, stype, m.id desc',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         23 => [
             'title' => 'Turnover-Accounts',
@@ -180,6 +229,12 @@ from move pm
 where pm.accminus_id = $1
 order by xdat desc, stype',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         24 => [
             'title' => 'Turnover-Transactions(PLN)',
@@ -207,12 +262,15 @@ from minus m
 where c.code = \'PLN\' and t.id = $1
 order by m.dat desc, stransaction, m.id desc',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         30 => [
             'title' => 'Tables',
-            'sql1' => '',
-            'sql2' => '',
-            'sql3' => '',
         ],
         31 => [
             'title' => 'Move-All',
@@ -234,6 +292,12 @@ from move m
 order by m.dat desc, m.id desc',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         32 => [
             'title' => 'Minus-All',
@@ -258,6 +322,12 @@ from minus m
 order by m.dat desc, m.id desc',
             'sql2' => '',
             'sql3' => 'mies',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         33 => [
             'title' => 'Minus-Comments-Sum(PLN)',
@@ -273,6 +343,12 @@ group by m.comment
 order by scomment',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         34 => [
             'title' => 'Minus-Comments-Order',
@@ -294,6 +370,12 @@ from minus m
 order by scomment, m.dat desc, m.id desc',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         35 => [
             'title' => 'Minus-Mies-Value-Order',
@@ -317,6 +399,12 @@ from minus m
 order by smies desc, m.value desc',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         36 => [
             'title' => 'Minus-Refer-Multi',
@@ -349,6 +437,12 @@ where m.refer in
 order by m.dat desc, m.refer, k.name, t.name, m.id desc',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         37 => [
             'title' => 'Minus-Type-Transaction-Sum',
@@ -365,12 +459,15 @@ group by stype, stransaction
 order by stype, stransaction',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         40 => [
             'title' => 'Report',
-            'sql1' => '',
-            'sql2' => '',
-            'sql3' => '',
         ],
         41 => [
             'title' => 'Bilans(PLN)',
@@ -406,6 +503,12 @@ group by grouping sets ((t2.mies), ())
 order by t2.mies nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         42 => [
             'title' => 'Bottles-All',
@@ -441,6 +544,12 @@ group by rollup (smies, sdata, stype), scomment, srefer
 order by smies desc nulls last, sdata desc nulls last, stype nulls last, scomment nulls last, srefer nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         43 => [
             'title' => 'Bottles-Sum',
@@ -470,12 +579,15 @@ group by rollup (smies, sdata, stype)
 order by smies desc nulls last, sdata desc nulls last, stype nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         50 => [
             'title' => 'Rollup',
-            'sql1' => '',
-            'sql2' => '',
-            'sql3' => '',
         ],
         51 => [
             'title' => 'Minus-mies,kind,type,account(PLN)',
@@ -496,6 +608,12 @@ group by rollup (smies, skind, stype, saccount)
 order by smies desc nulls last, skind nulls last, stype nulls last, saccount nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         52 => [
             'title' => 'Minus-mies,account,kind,type(PLN)',
@@ -516,6 +634,12 @@ group by rollup (smies, saccount, skind, stype)
 order by smies desc nulls last, saccount nulls last, skind nulls last, stype nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         53 => [
             'title' => 'Minus-kind,type,account,mies(PLN)',
@@ -536,6 +660,12 @@ group by rollup (skind, stype, saccount, smies)
 order by skind nulls last, stype nulls last, saccount nulls last, smies desc nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         54 => [
             'title' => 'Minus-account,kind,type,mies(PLN)',
@@ -556,6 +686,12 @@ group by rollup (saccount, skind, stype, smies)
 order by saccount nulls last, skind nulls last, stype nulls last, smies desc nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         55 => [
             'title' => 'Minus-kind,mies(PLN)',
@@ -582,6 +718,12 @@ group by rollup (qkind, qmies)
 order by skind nulls last, smies desc nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         56 => [
             'title' => 'Minus-mies,kind(PLN)',
@@ -599,6 +741,12 @@ group by rollup (smies, skind)
 order by smies desc nulls last, skind nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         57 => [
             'title' => 'xxx',
@@ -616,6 +764,12 @@ group by rollup (smies, skind)
 order by smies desc nulls last, skind nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
         58 => [
             'title' => 'Minus-day,kind(PLN)',
@@ -633,6 +787,12 @@ group by rollup (sday, skind)
 order by sday desc nulls last, skind nulls last',
             'sql2' => '',
             'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
         ],
     ];
 }

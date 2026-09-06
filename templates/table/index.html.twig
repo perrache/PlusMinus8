@@ -41,7 +41,7 @@
                         {% endfor %}
                         {% if tab >= 0 %}
                             <td>
-                                <a href="{{ path('route_sql') }}/{{ tab }}/{{ record1.nid }}"{% if id == record1.nid %} style="color: yellow"{% endif %}>==></a>
+                                <a href="{{ path('route_sql', {'tab': tab, 'id': record1.nid, 'subtab': 1}) }}"{% if id == record1.nid %} style="color: yellow"{% endif %}>==></a>
                             </td>
                         {% endif %}
                     </tr>
@@ -51,23 +51,28 @@
             <h3>no records found</h3>
         {% endif %}
     </div>
-    {% if records2.(0) is defined %}
+    {% if records5.(0) is defined %}
         <div class="content2">
             <h1>Details</h1>
-            <h3>{{ records2|length }} records</h3>
+            <h3>{{ records5|length }} records</h3>
+            {% for key, eskuel5 in sql5 %}
+                <div class="new">
+                    <a href="{{ path('route_sql', {'tab': tab, 'id': id, 'subtab': key}) }}"{% if subtab == key %} style="color: yellow"{% endif %}>{{ eskuel5.name }}</a>
+                </div>
+            {% endfor %}
             <table>
                 <tr>
-                    {% for col in records2.(0)|keys %}
+                    {% for col in records5.(0)|keys %}
                         {% if col|first != 'x' %}
                             <th>{{ col|slice(1)|capitalize }}</th>
                         {% endif %}
                     {% endfor %}
                 </tr>
-                {% for record2 in records2 %}
+                {% for record5 in records5 %}
                     <tr>
-                        {% for col in record2|keys %}
+                        {% for col in record5|keys %}
                             {% if col|first != 'x' %}
-                                <td{% if col|first == 'n' %} style="text-align: right"{% elseif col|first == 'c' %} style="text-align: center"{% endif %}>{{ record2.(col) }}</td>
+                                <td{% if col|first == 'n' %} style="text-align: right"{% elseif col|first == 'c' %} style="text-align: center"{% endif %}>{{ record5.(col) }}</td>
                             {% endif %}
                         {% endfor %}
                     </tr>
