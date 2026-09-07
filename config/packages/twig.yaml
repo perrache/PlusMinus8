@@ -2,6 +2,7 @@ twig:
     file_name_pattern: '*.twig'
     globals:
         sqlService: '@App\Service\SqlService'
+        twigDbName: '%env(DBNAME)%'
 
 when@test:
     twig:

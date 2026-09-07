@@ -10,7 +10,22 @@ class TypeRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->findColumns = $this->sql->columnList('type');
-        $this->findQuery = 'select ' . $this->findColumns . 'from type ';
+
+        $this->tableName = 'type';
+
+        $this->findColumns = $this->sql->columnList($this->tableName);
+
+        $this->findQuery = 'select ';
+        $this->findQuery .= $this->findColumns;
+        $this->findQuery .= ' from ';
+        $this->findQuery .= $this->tableName;
+        $this->findQuery .= ' ';
+
+        $this->insertQuery = 'insert into';
+        $this->insertQuery .= ' ';
+        $this->insertQuery .= $this->tableName;
+        $this->insertQuery .= ' (';
+        $this->insertQuery .= $this->sql->columnListNotID($this->tableName);
+        $this->insertQuery .= ') ';
     }
 }

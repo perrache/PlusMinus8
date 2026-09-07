@@ -4,6 +4,7 @@ namespace App\SimpleSQL;
 
 use PgSql\Result;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Repo
 {
@@ -49,18 +50,18 @@ class Repo
         return $this->sql->dmlFetch($this->findQuery);
     }
 
-    public function sqlInsert(LoggerInterface $logger): Result
+    public function sqlInsert(Request         $request,
+                              LoggerInterface $logger): Result
     {
         $count = 0;
-        $work = $this->sql->columnArrayNotID($this->tableName);
-        foreach ($work as $column) {
+        foreach ($this->sql->columnArrayNotID($this->tableName) as $column) {
             if (++$count === 1) $this->insertQuery .= 'values (';
             if ($count > 1) $this->insertQuery .= ', ';
-            $this->insertQuery .= '$' . $count;
-        }//##########$sql->dml('insert into kind (name) values ($1)', [$request->getPayload()->get('kind_name', 'default')]);
+            $fieldName = $this->tableName . '_' . $column;
+            $this->insertQuery .= "'" . $request->getPayload()->get($fieldName, 'default') . "'";
+        }
         $this->insertQuery .= ')';
         $logger->info('###sqlInsert### ' . $this->insertQuery);
-        return $this->sql->dml('insert into');
-//        return $this->sql->dml($this->insertQuery);
+        return $this->sql->dml($this->insertQuery);
     }
 }

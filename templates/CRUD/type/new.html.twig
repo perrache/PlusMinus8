@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Type{% endblock %}
+
+{% block crud %}
+    {% if kinds is defined %}
+        <h1>Create new Type</h1>
+
+        <form name="type" method="post">
+            <table id="type">
+                <tr>
+                    <td><label for="type_name">Name</label></td>
+                    <td><input type="text" id="type_name" name="type_name" autocomplete="on" required autofocus/></td>
+                </tr>
+                <tr>
+                    <td><label for="type_kind_id">Kind</label></td>
+                    <td>
+                        <select id="type_kind_id" name="type_kind_id" required>
+                            <option value="" selected>=== Select Kind ===</option>
+                            {% for kind in kinds %}
+                                <option value="{{ kind.id }}">{{ kind.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit"/>
+        </form>
+    {% endif %}
+    <a href="{{ path('app_type_index') }}">back to list</a>
+{% endblock %}

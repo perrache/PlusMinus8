@@ -27,7 +27,7 @@ final class KindController extends AbstractController
                         LoggerInterface $logger): Response
     {
         if ($request->getMethod() === 'POST') {
-            $kindRepository->sqlInsert($logger);
+            $kindRepository->sqlInsert($request, $logger);
             return $this->redirectToRoute('app_kind_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('CRUD/kind/new.html.twig');

@@ -10,7 +10,22 @@ class CurrencyRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->findColumns = $this->sql->columnList('currency');
-        $this->findQuery = 'select ' . $this->findColumns . 'from currency ';
+
+        $this->tableName = 'currency';
+
+        $this->findColumns = $this->sql->columnList($this->tableName);
+
+        $this->findQuery = 'select ';
+        $this->findQuery .= $this->findColumns;
+        $this->findQuery .= ' from ';
+        $this->findQuery .= $this->tableName;
+        $this->findQuery .= ' ';
+
+        $this->insertQuery = 'insert into';
+        $this->insertQuery .= ' ';
+        $this->insertQuery .= $this->tableName;
+        $this->insertQuery .= ' (';
+        $this->insertQuery .= $this->sql->columnListNotID($this->tableName);
+        $this->insertQuery .= ') ';
     }
 }
