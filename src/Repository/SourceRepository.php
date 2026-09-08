@@ -10,7 +10,7 @@ class SourceRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->findColumns = $this->sql->columnList('source');
-        $this->findQuery = 'select ' . $this->findColumns . 'from source ';
+        $this->tableName = 'source';
+        $this->findColumns = $this->sql->columnList($this->tableName);
     }
 }

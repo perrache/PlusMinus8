@@ -10,7 +10,7 @@ class MoveRepository extends Repo
     public function __construct(Sql $sql)
     {
         $this->sql = $sql;
-        $this->findColumns = $this->sql->columnList('move');
-        $this->findQuery = 'select ' . $this->findColumns . 'from move ';
+        $this->tableName = 'move';
+        $this->findColumns = $this->sql->columnList($this->tableName);
     }
 }

@@ -21,6 +21,11 @@ class Repo
     public function findAll(LoggerInterface $logger,
                             array           $order = []): array
     {
+        $this->findQuery = 'select ';
+        $this->findQuery .= $this->findColumns;
+        $this->findQuery .= ' from ';
+        $this->findQuery .= $this->tableName;
+        $this->findQuery .= ' ';
         $count = 0;
         foreach ($order as $column => $direction) {
             if (++$count === 1) $this->findQuery .= 'order by ';
@@ -35,6 +40,11 @@ class Repo
                            array           $where = [],
                            array           $order = []): array
     {
+        $this->findQuery = 'select ';
+        $this->findQuery .= $this->findColumns;
+        $this->findQuery .= ' from ';
+        $this->findQuery .= $this->tableName;
+        $this->findQuery .= ' ';
         $count = 0;
         foreach ($where as $column => $condition) {
             if (++$count === 1) $this->findQuery .= 'where ';
@@ -53,6 +63,12 @@ class Repo
     public function sqlInsert(Request         $request,
                               LoggerInterface $logger): Result
     {
+        $this->insertQuery = 'insert into';
+        $this->insertQuery .= ' ';
+        $this->insertQuery .= $this->tableName;
+        $this->insertQuery .= ' (';
+        $this->insertQuery .= $this->sql->columnListNotID($this->tableName);
+        $this->insertQuery .= ') ';
         $count = 0;
         foreach ($this->sql->columnArrayNotID($this->tableName) as $column) {
             if (++$count === 1) $this->insertQuery .= 'values (';

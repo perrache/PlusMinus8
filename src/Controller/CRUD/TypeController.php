@@ -46,4 +46,16 @@ final class TypeController extends AbstractController
             'records' => $typeRepository->findBy($logger, ['id' => '= ' . $id], []),
         ]);
     }
+
+    #[Route('/edit/{id}', name: 'app_type_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, TypeRepository  $typeRepository): Response
+    {
+
+    }
+
+    #[Route('/delete/{id}', name: 'app_type_delete', methods: ['GET'])]
+    public function delete(): Response
+    {
+
+    }
 }
