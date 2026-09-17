@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Type{% endblock %}
+
+{% block crud %}
+    <h1>Edit Type</h1>
+    {% if records is defined %}{% set record = records.(0) %}{% endif %}
+    {{ include('CRUD/type/_form.html.twig') }}
+    <div class="new"><a href="{{ path('app_type_index') }}">back to list</a></div>
+    <div class="new"><a href="{{ path('app_type_delete', {'id': record.id}) }}">delete</a></div>
+{% endblock %}

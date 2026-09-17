@@ -1,4 +1,4 @@
-<?php
+<?= "<?php\n" ?>
 
 namespace App\Controller\CRUD;
 

@@ -23,7 +23,7 @@
                     {% endfor %}
                     <td>
                         <a href="{{ path('app_' ~ block('tablename') ~ '_show', {'id': record.id}) }}">show</a>
-                        <a href="dupa">edit</a>
+                        <a href="{{ path('app_' ~ block('tablename') ~ '_edit', {'id': record.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}

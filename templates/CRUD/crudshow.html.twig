@@ -18,5 +18,7 @@
         <h3>no record found</h3>
     {% endif %}
 
-    <a href="{{ path('app_' ~ block('tablename') ~ '_index') }}">back to list</a>
+    <div class="new"><a href="{{ path('app_' ~ block('tablename') ~ '_index') }}">back to list</a></div>
+    <div class="new"><a href="{{ path('app_' ~ block('tablename') ~ '_edit', {'id': records.(0).id}) }}">edit</a></div>
+    <div class="new"><a href="{{ path('app_' ~ block('tablename') ~ '_delete', {'id': records.(0).id}) }}">delete</a></div>
 {% endblock %}

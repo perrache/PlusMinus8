@@ -18,6 +18,10 @@ class Repo
 
     protected string $insertQuery;
 
+    protected string $updateQuery;
+
+    protected string $deleteQuery;
+
     public function findAll(LoggerInterface $logger,
                             array           $order = []): array
     {
@@ -32,7 +36,7 @@ class Repo
             if ($count > 1) $this->findQuery .= ', ';
             $this->findQuery .= $column . ' ' . $direction;
         }
-        $logger->info('###findAll### ' . $this->findQuery);
+        $logger->debug('###findAll### ' . $this->findQuery);
         return $this->sql->dmlFetch($this->findQuery);
     }
 
@@ -56,7 +60,7 @@ class Repo
             if ($count > 1) $this->findQuery .= ', ';
             $this->findQuery .= $column . ' ' . $direction;
         }
-        $logger->info('###findBy### ' . $this->findQuery);
+        $logger->debug('###findBy### ' . $this->findQuery);
         return $this->sql->dmlFetch($this->findQuery);
     }
 
@@ -77,7 +81,25 @@ class Repo
             $this->insertQuery .= "'" . $request->getPayload()->get($fieldName, 'default') . "'";
         }
         $this->insertQuery .= ')';
-        $logger->info('###sqlInsert### ' . $this->insertQuery);
+        $logger->debug('###sqlInsert### ' . $this->insertQuery);
         return $this->sql->dml($this->insertQuery);
+    }
+
+    public function sqlUpdate(Request         $request,
+                              LoggerInterface $logger,
+                              int             $id = 0): Result
+    {
+        $this->updateQuery = 'update ';
+        $this->updateQuery .= $this->tableName;
+        $count = 0;
+        foreach ($this->sql->columnArrayNotID($this->tableName) as $column) {
+            if (++$count === 1) $this->updateQuery .= ' set ';
+            if ($count > 1) $this->updateQuery .= ', ';
+            $fieldName = $this->tableName . '_' . $column;
+            $this->updateQuery .= $column . " = '" . $request->getPayload()->get($fieldName, 'default') . "'";
+        }
+        $this->updateQuery .= ' where id = $1';
+        $logger->debug('###sqlUpdate### ' . $this->updateQuery);
+        return $this->sql->dml($this->updateQuery, [$id]);
     }
 }

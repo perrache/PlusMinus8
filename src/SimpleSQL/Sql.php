@@ -29,6 +29,11 @@ class Sql
         return pg_fetch_all(pg_query_params($this->conn, $sql, $params));
     }
 
+    public function dmlDelete(string $tbl = '', array $conditions = []): bool|string
+    {
+        return pg_delete($this->conn, $tbl, $conditions);
+    }
+
     public function columnList(string $tableName): string
     {
         $work = pg_meta_data($this->conn, $tableName);
