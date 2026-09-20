@@ -23,14 +23,18 @@ final class MinusController extends AbstractController
     }
 
     #[Route('/new', name: 'app_minus_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,
-                        Sql     $sql): Response
+    public function new(Request         $request,
+                        MinusRepository $minusRepository,
+                        LoggerInterface $logger,
+                        Sql             $sql): Response
     {
         if ($request->getMethod() === 'POST') {
-            $sql->dml('insert into minus (comment) values ($1)', [$request->getPayload()->get('kind_name', 'default')]);
+            $minusRepository->sqlInsert($request, $logger);
             return $this->redirectToRoute('app_minus_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('CRUD/minus/new.html.twig');
+        return $this->render('CRUD/minus/new.html.twig', [
+            'kinds' => $sql->dmlFetch('select id, name from kind order by name'),
+        ]);
     }
 
     #[Route('/{id}', name: 'app_minus_show', methods: ['GET'])]
@@ -41,5 +45,34 @@ final class MinusController extends AbstractController
         return $this->render('CRUD/minus/show.html.twig', [
             'records' => $minusRepository->findBy($logger, ['id' => '= ' . $id], []),
         ]);
+    }
+
+    #[Route('/edit/{id}', name: 'app_minus_edit', methods: ['GET', 'POST'])]
+    public function edit(Request         $request,
+                         MinusRepository $minusRepository,
+                         LoggerInterface $logger,
+                         Sql             $sql,
+                         int             $id = 0): Response
+    {
+        if ($id <= 0) return $this->redirectToRoute('app_minus_index', [], Response::HTTP_SEE_OTHER);
+        if ($request->getMethod() === 'POST') {
+            $minusRepository->sqlUpdate($request, $logger, $id);
+            return $this->redirectToRoute('app_minus_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('CRUD/minus/edit.html.twig', [
+            'records' => $minusRepository->findBy($logger, ['id' => '= ' . $id], []),
+            'kinds' => $sql->dmlFetch('select id, name from kind order by name'),
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_minus_delete', methods: ['GET'])]
+    public function delete(LoggerInterface $logger,
+                           Sql             $sql,
+                           int             $id = 0): Response
+    {
+        if ($id <= 0) return $this->redirectToRoute('app_minus_index', [], Response::HTTP_SEE_OTHER);
+        $logger->debug('###dmlDelete### id = ' . $id);
+        $sql->dmlDelete('minus', ['id' => $id]);
+        return $this->redirectToRoute('app_minus_index', [], Response::HTTP_SEE_OTHER);
     }
 }
