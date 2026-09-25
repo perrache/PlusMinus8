@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Source{% endblock %}
+
+{% block crud %}
+    <h1>Create new Source</h1>
+    {{ include('CRUD/source/_form.html.twig') }}
+    <div class="new"><a href="{{ path('app_source_index') }}">back to list</a></div>
+{% endblock %}

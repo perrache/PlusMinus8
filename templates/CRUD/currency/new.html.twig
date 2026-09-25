@@ -4,19 +4,6 @@
 
 {% block crud %}
     <h1>Create new Currency</h1>
-
-    <form name="currency" method="post">
-        <table id="currency">
-            <tr>
-                <td><label for="currency_code">Code</label></td>
-                <td><input type="text" id="currency_code" name="currency_code" maxlength="3" autocomplete="on" required autofocus/></td>
-            </tr>
-            <tr>
-                <td><label for="currency_name">Name</label></td>
-                <td><input type="text" id="currency_name" name="currency_name" maxlength="50" autocomplete="on" required/></td>
-            </tr>
-        </table>
-        <input type="submit" value="Submit"/>
-    </form>
+    {{ include('CRUD/currency/_form.html.twig') }}
     <div class="new"><a href="{{ path('app_currency_index') }}">back to list</a></div>
 {% endblock %}

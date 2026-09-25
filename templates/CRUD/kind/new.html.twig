@@ -4,15 +4,6 @@
 
 {% block crud %}
     <h1>Create new Kind</h1>
-
-    <form name="kind" method="post">
-        <table id="kind">
-            <tr>
-                <td><label for="kind_name">Name</label></td>
-                <td><input type="text" id="kind_name" name="kind_name" maxlength="50" autocomplete="on" required autofocus/></td>
-            </tr>
-        </table>
-        <input type="submit" value="Submit"/>
-    </form>
+    {{ include('CRUD/kind/_form.html.twig') }}
     <div class="new"><a href="{{ path('app_kind_index') }}">back to list</a></div>
 {% endblock %}
