@@ -794,5 +794,107 @@ order by sday desc nulls last, skind nulls last',
                 ],
             ],
         ],
+        60 => [
+            'title' => 'CorrectData',
+        ],
+        61 => [
+            'title' => 'Type, Transaction, Account',
+            'sql1' => '
+select k.name||\' / \'||t.name stype,
+       r.name stransaction,
+       o.name||\' / \'||a.name saccount,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
+       count(*) nile,
+       m.comment scomment
+from minus m
+    join type t on t.id = m.type_id
+    join kind k on k.id = t.kind_id
+    join transaction r on r.id = m.transaction_id
+    join account a on a.id = m.account_id
+    join organization o on o.id = a.organization_id
+    join currency c on c.id = a.currency_id
+group by stype, stransaction, saccount, scomment
+order by scomment, stype, stransaction, saccount',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
+        62 => [
+            'title' => 'Transaction, Account',
+            'sql1' => '
+select r.name stransaction,
+       o.name||\' / \'||a.name saccount,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
+       count(*) nile,
+       m.comment scomment
+from minus m
+    join transaction r on r.id = m.transaction_id
+    join account a on a.id = m.account_id
+    join organization o on o.id = a.organization_id
+    join currency c on c.id = a.currency_id
+group by stransaction, saccount, scomment
+order by scomment, stransaction, saccount',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
+        63 => [
+            'title' => 'Type, Account',
+            'sql1' => '
+select k.name||\' / \'||t.name stype,
+       o.name||\' / \'||a.name saccount,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
+       count(*) nile,
+       m.comment scomment
+from minus m
+    join type t on t.id = m.type_id
+    join kind k on k.id = t.kind_id
+    join account a on a.id = m.account_id
+    join organization o on o.id = a.organization_id
+    join currency c on c.id = a.currency_id
+group by stype, saccount, scomment
+order by scomment, stype, saccount',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
+        64 => [
+            'title' => 'Type, Transaction',
+            'sql1' => '
+select k.name||\' / \'||t.name stype,
+       r.name stransaction,
+       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
+       count(*) nile,
+       m.comment scomment
+from minus m
+    join type t on t.id = m.type_id
+    join kind k on k.id = t.kind_id
+    join transaction r on r.id = m.transaction_id
+group by stype, stransaction, scomment
+order by scomment, stype, stransaction',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
     ];
 }
