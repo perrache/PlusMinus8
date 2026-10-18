@@ -81,7 +81,7 @@ from minus m
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and t.kind_id = $1
-order by m.dat desc, stype, m.id desc',
+order by m.dat desc, scomm, stype',
             'sql3' => '',
             'sql5' => [
                 1 => [
@@ -147,7 +147,7 @@ from minus m
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and m.type_id = $1
-order by m.dat desc, stype, m.id desc',
+order by m.dat desc, scomm, stype',
             'sql3' => '',
             'sql5' => [
                 1 => [
@@ -164,7 +164,8 @@ select tab.oname||\' / \'||tab.aname saccount,
        case c.code when \'PLN\' then \'\' else c.code end swal,
        to_char(sum(tab.bo), \'999 999 990"."99\') nbo,
        to_char(sum(tab.val), \'999 999 990"."99\') nsaldo,
-       to_char(sum(tab.val+tab.lt), \'999 999 990"."99\') ndost
+       to_char(sum(tab.val+tab.lt), \'999 999 990"."99\') ndost,
+       count(*) - 1 nile
 from
     (select o.name oname, a.name aname, a.id, a.bo, a.bo val, a.lt, a.currency_id
      from account a
@@ -204,7 +205,7 @@ from minus m
     join kind k on k.id = t.kind_id
 where m.account_id = $1
 union all
-select \'+\' stype,
+select \'(plus)\' stype,
        to_char(p.value, \'999 999 990"."99\') nvalue,
        p.dat xdat,
        to_char(p.dat, \'DD-MM-YYYY\') sdata,
@@ -212,7 +213,7 @@ select \'+\' stype,
 from plus p
 where p.account_id = $1
 union all
-select \'+-\' stype,
+select \'(move+)\' stype,
        to_char(pm.value, \'999 999 990"."99\') nvalue,
        pm.dat xdat,
        to_char(pm.dat, \'DD-MM-YYYY\') sdata,
@@ -220,19 +221,105 @@ select \'+-\' stype,
 from move pm
 where pm.accplus_id = $1
 union all
-select \'+-\' stype,
+select \'(move-)\' stype,
        to_char(-pm.value, \'999 999 990"."99\') nvalue,
        pm.dat xdat,
        to_char(pm.dat, \'DD-MM-YYYY\') sdata,
        pm.comment scomm
 from move pm
 where pm.accminus_id = $1
-order by xdat desc, stype',
+order by xdat desc, scomm, stype',
             'sql3' => '',
             'sql5' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
+                ],
+                2 => [
+                    'name' => 'Balance/Account',
+                    'sql' => '
+with t1 as (
+select -1 sign, m.value val, to_char(m.dat, \'YYYY/MM\') data
+from minus m
+    join account a on a.id = m.account_id
+    join currency c on c.id = a.currency_id
+where m.account_id = $1 and c.code = \'PLN\'
+union all
+select 1 sign, value val, to_char(dat, \'YYYY/MM\') data
+from plus p
+    join account a on a.id = p.account_id
+    join currency c on c.id = a.currency_id
+where p.account_id = $1 and c.code = \'PLN\'
+union all
+select 1 sign, value val, to_char(dat, \'YYYY/MM\') data
+from move pm
+    join account a on a.id = pm.accplus_id
+    join currency c on c.id = a.currency_id
+where pm.accplus_id = $1 and c.code = \'PLN\'
+union all
+select -1 sign, value val, to_char(dat, \'YYYY/MM\') data
+from move pm
+    join account a on a.id = pm.accminus_id
+    join currency c on c.id = a.currency_id
+where pm.accminus_id = $1 and c.code = \'PLN\'
+union all
+select 1 sign, bo + lt val, \'0000/00\' data
+from account a
+    join currency c on c.id = a.currency_id
+where a.id = $1 and c.code = \'PLN\'
+), t2 as (
+select case t1.sign when 1 then t1.val else 0 end valplus,
+       case t1.sign when -1 then t1.val else 0 end valminus,
+       t1.data mies
+from t1
+), t3 as (
+select t2.mies cmies,
+       to_char(sum(t2.valplus), \'999 999 990"."99\') cplus,
+       to_char(sum(t2.valminus), \'999 999 990"."99\') cminus,
+       to_char(sum(t2.valplus - t2.valminus), \'999 999 990"."99\') csaldo
+from t2
+group by grouping sets ((t2.mies), ())
+), t4 as (
+select coalesce(t3.cmies, \'9===/==\') smies,
+       cplus nplus,
+       cminus nminus,
+       csaldo nsaldo
+from t3
+), t11 as (
+select distinct to_char(dat, \'YYYY/MM\') miesiac from minus
+union
+select distinct to_char(dat, \'YYYY/MM\') miesiac from plus
+union
+select distinct to_char(dat, \'YYYY/MM\') miesiac from move
+union
+select \'0000/00\'
+union
+select \'9===/==\'
+), t12 as (
+select t11.miesiac cmies,
+       (select to_char(sum(t2.valplus - t2.valminus), \'999 999 990"."99\')
+       from t2
+       where t2.mies < t11.miesiac) as cbegin,
+       (select to_char(sum(t2.valplus - t2.valminus), \'999 999 990"."99\')
+       from t2
+       where t2.mies <= t11.miesiac) as cend
+from t11
+), t13 as (
+select cmies smies,
+       case
+       when cmies = \'0000/00\' then null
+       when cmies = \'9===/==\' then null
+       else cbegin end nbegin,
+       case
+       when cmies = \'0000/00\' then null
+       when cmies = \'9===/==\' then null
+       else cend end nend
+from t12
+)
+select t4.smies, t13.nbegin, t4.nplus, t4.nminus, t4.nsaldo, t13.nend
+from t4
+    join t13 on t4.smies = t13.smies
+order by t13.smies nulls last',
                 ],
             ],
         ],
@@ -260,7 +347,7 @@ from minus m
     join account a on a.id = m.account_id
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and t.id = $1
-order by m.dat desc, stransaction, m.id desc',
+order by m.dat desc, scomm, stransaction',
             'sql3' => '',
             'sql5' => [
                 1 => [
@@ -289,7 +376,7 @@ from move m
     join account aminus on aminus.id = m.accminus_id
     join organization ominus on ominus.id = aminus.organization_id
     join currency cminus on cminus.id = aminus.currency_id
-order by m.dat desc, m.id desc',
+order by m.dat desc, scomment, m.id desc',
             'sql2' => '',
             'sql3' => '',
             'sql5' => [
@@ -319,7 +406,7 @@ from minus m
     join account a on a.id = m.account_id
     join organization o on o.id = a.organization_id
     join currency c on c.id = a.currency_id
-order by m.dat desc, m.id desc',
+order by m.dat desc, scomment, m.id desc',
             'sql2' => '',
             'sql3' => 'mies',
             'sql5' => [
@@ -396,7 +483,7 @@ from minus m
     join account a on a.id = m.account_id
     join organization o on o.id = a.organization_id
     join currency c on c.id = a.currency_id
-order by smies desc, m.value desc',
+order by smies desc, m.value desc, scomment',
             'sql2' => '',
             'sql3' => '',
             'sql5' => [
@@ -470,7 +557,7 @@ order by stype, stransaction',
             'title' => 'Report',
         ],
         41 => [
-            'title' => 'Bilans(PLN)',
+            'title' => 'Balance(PLN)',
             'sql1' => '
 select t2.mies smies,
        to_char(sum(t2.valplus), \'999 999 990"."99\') nplus,
@@ -887,6 +974,45 @@ from minus m
     join transaction r on r.id = m.transaction_id
 group by stype, stransaction, scomment
 order by scomment, stype, stransaction',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
+        70 => [
+            'title' => 'Database',
+        ],
+        71 => [
+            'title' => 'Databases',
+            'sql1' => '
+select oid as noid,
+       datname as sdatname,
+       datallowconn as sdatallowconn,
+       datconnlimit as ndatconnlimit
+from pg_database
+order by datname',
+            'sql2' => '',
+            'sql3' => '',
+            'sql5' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ],
+        72 => [
+            'title' => 'Schemas',
+            'sql1' => '
+select s.nspname as snspname,
+       s.oid as noid,
+       u.usename as susename
+from pg_catalog.pg_namespace s
+    join pg_catalog.pg_user u on u.usesysid = s.nspowner
+order by nspname',
             'sql2' => '',
             'sql3' => '',
             'sql5' => [

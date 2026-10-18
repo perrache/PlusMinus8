@@ -31,12 +31,14 @@
                             {% if col|first != 'x' %}
                                 {% if col|first == 'n' %}
                                     {% set tdStyle = ' style="text-align: right"' %}
+                                    <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
                                 {% elseif col|first == 'c' %}
                                     {% set tdStyle = ' style="text-align: center"' %}
+                                    <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
                                 {% else %}
                                     {% set tdStyle = '' %}
+                                    <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
                                 {% endif %}
-                                <td{{ tdStyle|raw }}>{{ record1.(col) }}</td>
                             {% endif %}
                         {% endfor %}
                         {% if tab >= 0 %}
@@ -72,7 +74,16 @@
                     <tr>
                         {% for col in record5|keys %}
                             {% if col|first != 'x' %}
-                                <td{% if col|first == 'n' %} style="text-align: right"{% elseif col|first == 'c' %} style="text-align: center"{% endif %}>{{ record5.(col) }}</td>
+                                {% if col|first == 'n' %}
+                                    {% set tdStyle = ' style="text-align: right"' %}
+                                    <td{{ tdStyle|raw }}>{{ record5.(col) }}</td>
+                                {% elseif col|first == 'c' %}
+                                    {% set tdStyle = ' style="text-align: center"' %}
+                                    <td{{ tdStyle|raw }}>{{ record5.(col) }}</td>
+                                {% else %}
+                                    {% set tdStyle = '' %}
+                                    <td{{ tdStyle|raw }}>{{ record5.(col) }}</td>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     </tr>
