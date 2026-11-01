@@ -5,7 +5,7 @@
         <h1>{{ title }}</h1>
         {% if records1.(0) is defined %}
             <h3>{{ records1|length }} records</h3>
-            {% if sql3 == 'mies' %}
+            {% if additional == 'mies' %}
                 {% set iter = '' %}
                 {% for record1 in records1 %}
                     {% if record1.smies != iter %}
@@ -57,7 +57,7 @@
         <div class="content2">
             <h1>Details</h1>
             <h3>{{ records5|length }} records</h3>
-            {% for key, eskuel5 in sql5 %}
+            {% for key, eskuel5 in list %}
                 <div class="new">
                     <a href="{{ path('route_sql', {'tab': tab, 'id': id, 'subtab': key}) }}"{% if subtab == key %} style="color: yellow"{% endif %}>{{ eskuel5.name }}</a>
                 </div>

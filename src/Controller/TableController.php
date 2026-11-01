@@ -19,28 +19,28 @@ final class TableController extends AbstractController
     {
         if ($tab <= 0) return $this->redirectToRoute('route_root', [], Response::HTTP_SEE_OTHER);
         $title = $sqlService->sqlArray[$tab]['title'];
-        $sql1 = $sqlService->sqlArray[$tab]['sql1'];
-        $sql2 = $sqlService->sqlArray[$tab]['sql2'];
-        $sql3 = $sqlService->sqlArray[$tab]['sql3'];
-        $sql5 = $sqlService->sqlArray[$tab]['sql5'];
-        $sql5[1]['sql'] = $sql2;
+        $primary = $sqlService->sqlArray[$tab]['primary'];
+//        $sql2 = $sqlService->sqlArray[$tab]['sql2'];
+        $additional = $sqlService->sqlArray[$tab]['additional'];
+        $list = $sqlService->sqlArray[$tab]['list'];
+//        $list[1]['sql'] = $sql2;
         try {
-            $records1 = $sql->dmlFetch($sql1, []);
+            $records1 = $sql->dmlFetch($primary, []);
         } catch (\Exception $e) {
             return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
         }
         $callArray = [
             'records1' => $records1,
             'title' => sprintf('%02u - ', $tab) . $title,
-            'tab' => empty($sql2) ? -1 : $tab,
+            'tab' => empty($list[1]['sql']) ? -1 : $tab,
             'subtab' => $subtab,
             'id' => $id,
-            'sql3' => $sql3,
-            'sql5' => $sql5,
+            'additional' => $additional,
+            'list' => $list,
         ];
         if ($id > 0) {
             try {
-                $records5 = $sql->dmlFetch($sql5[$subtab]['sql'], [$id]);
+                $records5 = $sql->dmlFetch($list[$subtab]['sql'], [$id]);
             } catch (\Exception $e) {
                 return $this->redirectToRoute('route_root_exception', ['exc' => $e->getMessage()], Response::HTTP_SEE_OTHER);
             }

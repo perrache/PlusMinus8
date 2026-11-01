@@ -10,7 +10,7 @@ class SqlService
         ],
         11 => [
             'title' => 'Dictionary-Kind-Type',
-            'sql1' => '
+            'primary' => '
 select k.name skind,
        k.id nid
 from kind k
@@ -21,8 +21,8 @@ select t.name stype,
 from type t
 where t.kind_id = $1
 order by stype',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -31,7 +31,7 @@ order by stype',
         ],
         12 => [
             'title' => 'Dictionary-Organization-Account',
-            'sql1' => '
+            'primary' => '
 select o.name sorganization,
        o.id nid
 from organization o
@@ -44,8 +44,8 @@ from account a
     join currency c on c.id = a.currency_id
 where a.organization_id = $1
 order by saccount',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -57,7 +57,7 @@ order by saccount',
         ],
         21 => [
             'title' => 'Turnover-Kinds(PLN)',
-            'sql1' => '
+            'primary' => '
 select k.name skind,
        k.id nid,
        count(*) nile,
@@ -82,8 +82,8 @@ from minus m
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and t.kind_id = $1
 order by m.dat desc, scomm, stype',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -123,7 +123,7 @@ order by stype, scomm',
         ],
         22 => [
             'title' => 'Turnover-Types(PLN)',
-            'sql1' => '
+            'primary' => '
 select k.name||\' / \'||t.name stype,
        t.id nid,
        to_char(sum(m.value), \'999 999 990"."99\') nsuma,
@@ -148,8 +148,8 @@ from minus m
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and m.type_id = $1
 order by m.dat desc, scomm, stype',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -158,7 +158,7 @@ order by m.dat desc, scomm, stype',
         ],
         23 => [
             'title' => 'Turnover-Accounts',
-            'sql1' => '
+            'primary' => '
 select tab.oname||\' / \'||tab.aname saccount,
        tab.id nid,
        case c.code when \'PLN\' then \'\' else c.code end swal,
@@ -229,8 +229,8 @@ select \'(move-)\' stype,
 from move pm
 where pm.accminus_id = $1
 order by xdat desc, scomm, stype',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -325,7 +325,7 @@ order by t13.smies nulls last',
         ],
         24 => [
             'title' => 'Turnover-Transactions(PLN)',
-            'sql1' => '
+            'primary' => '
 select t.name stransaction,
        t.id nid,
        to_char(sum(m.value), \'999 999 990"."99\') nsuma,
@@ -348,8 +348,8 @@ from minus m
     join currency c on c.id = a.currency_id
 where c.code = \'PLN\' and t.id = $1
 order by m.dat desc, scomm, stransaction',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -361,7 +361,7 @@ order by m.dat desc, scomm, stransaction',
         ],
         31 => [
             'title' => 'Move-All',
-            'sql1' => '
+            'primary' => '
 select oplus.name||\' / \'||aplus.name saccountplus,
        case cplus.code when \'PLN\' then \'\' else cplus.code end swalplus,
        ominus.name||\' / \'||aminus.name saccountminus,
@@ -378,8 +378,8 @@ from move m
     join currency cminus on cminus.id = aminus.currency_id
 order by m.dat desc, scomment, m.id desc',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -388,7 +388,7 @@ order by m.dat desc, scomment, m.id desc',
         ],
         32 => [
             'title' => 'Minus-All',
-            'sql1' => '
+            'primary' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
        k.name||\' / \'||t.name stype,
@@ -408,8 +408,8 @@ from minus m
     join currency c on c.id = a.currency_id
 order by m.dat desc, scomment, m.id desc',
             'sql2' => '',
-            'sql3' => 'mies',
-            'sql5' => [
+            'additional' => 'mies',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -418,7 +418,7 @@ order by m.dat desc, scomment, m.id desc',
         ],
         33 => [
             'title' => 'Minus-Comments-Sum(PLN)',
-            'sql1' => '
+            'primary' => '
 select m.comment scomment,
        to_char(sum(m.value), \'999 999 990"."99\') nsuma,
        count(*) nile
@@ -429,8 +429,8 @@ where c.code = \'PLN\'
 group by m.comment
 order by scomment',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -439,7 +439,7 @@ order by scomment',
         ],
         34 => [
             'title' => 'Minus-Comments-Order',
-            'sql1' => '
+            'primary' => '
 select k.name||\' / \'||t.name stype,
        r.name stransaction,
        o.name||\' / \'||a.name saccount,
@@ -456,8 +456,8 @@ from minus m
     join currency c on c.id = a.currency_id
 order by scomment, m.dat desc, m.id desc',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -466,7 +466,7 @@ order by scomment, m.dat desc, m.id desc',
         ],
         35 => [
             'title' => 'Minus-Mies-Value-Order',
-            'sql1' => '
+            'primary' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
        k.name||\' / \'||t.name stype,
@@ -485,8 +485,8 @@ from minus m
     join currency c on c.id = a.currency_id
 order by smies desc, m.value desc, scomment',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -495,7 +495,7 @@ order by smies desc, m.value desc, scomment',
         ],
         36 => [
             'title' => 'Minus-Refer-Multi',
-            'sql1' => '
+            'primary' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
        k.name||\' / \'||t.name stype,
@@ -523,8 +523,8 @@ where m.refer in
             having count(*) > 1) t1)
 order by m.dat desc, m.refer, k.name, t.name, m.id desc',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -533,7 +533,7 @@ order by m.dat desc, m.refer, k.name, t.name, m.id desc',
         ],
         37 => [
             'title' => 'Minus-Type-Transaction-Sum',
-            'sql1' => '
+            'primary' => '
 select k.name||\' / \'||t.name stype,
        r.name stransaction,
        count(*) nile,
@@ -545,8 +545,8 @@ from minus m
 group by stype, stransaction
 order by stype, stransaction',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -558,7 +558,7 @@ order by stype, stransaction',
         ],
         41 => [
             'title' => 'Balance(PLN)',
-            'sql1' => '
+            'primary' => '
 select t2.mies smies,
        to_char(sum(t2.valplus), \'999 999 990"."99\') nplus,
        to_char(sum(t2.valminus), \'999 999 990"."99\') nminus,
@@ -589,8 +589,8 @@ where c.code = \'PLN\'
 group by grouping sets ((t2.mies), ())
 order by t2.mies nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -599,7 +599,7 @@ order by t2.mies nulls last',
         ],
         42 => [
             'title' => 'Bottles-All',
-            'sql1' => '
+            'primary' => '
 select smies,
        sdata,
        stype,
@@ -630,8 +630,8 @@ from
 group by rollup (smies, sdata, stype), scomment, srefer
 order by smies desc nulls last, sdata desc nulls last, stype nulls last, scomment nulls last, srefer nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -640,7 +640,7 @@ order by smies desc nulls last, sdata desc nulls last, stype nulls last, scommen
         ],
         43 => [
             'title' => 'Bottles-Sum',
-            'sql1' => '
+            'primary' => '
 select smies,
        sdata,
        stype,
@@ -665,8 +665,8 @@ from
 group by rollup (smies, sdata, stype)
 order by smies desc nulls last, sdata desc nulls last, stype nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -678,7 +678,7 @@ order by smies desc nulls last, sdata desc nulls last, stype nulls last',
         ],
         51 => [
             'title' => 'Minus-mies,kind,type,account(PLN)',
-            'sql1' => '
+            'primary' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        k.name skind,
        k.name||\' / \'||t.name stype,
@@ -694,8 +694,8 @@ where c.code = \'PLN\'
 group by rollup (smies, skind, stype, saccount)
 order by smies desc nulls last, skind nulls last, stype nulls last, saccount nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -704,7 +704,7 @@ order by smies desc nulls last, skind nulls last, stype nulls last, saccount nul
         ],
         52 => [
             'title' => 'Minus-mies,account,kind,type(PLN)',
-            'sql1' => '
+            'primary' => '
 select to_char(m.dat, \'YYYY/MM\') smies,
        o.name||\' / \'||a.name saccount,
        k.name skind,
@@ -720,8 +720,8 @@ where c.code = \'PLN\'
 group by rollup (smies, saccount, skind, stype)
 order by smies desc nulls last, saccount nulls last, skind nulls last, stype nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -730,7 +730,7 @@ order by smies desc nulls last, saccount nulls last, skind nulls last, stype nul
         ],
         53 => [
             'title' => 'Minus-kind,type,account,mies(PLN)',
-            'sql1' => '
+            'primary' => '
 select k.name skind,
        k.name||\' / \'||t.name stype,
        o.name||\' / \'||a.name saccount,
@@ -746,135 +746,8 @@ where c.code = \'PLN\'
 group by rollup (skind, stype, saccount, smies)
 order by skind nulls last, stype nulls last, saccount nulls last, smies desc nulls last',
             'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        54 => [
-            'title' => 'Minus-account,kind,type,mies(PLN)',
-            'sql1' => '
-select o.name||\' / \'||a.name saccount,
-       k.name skind,
-       k.name||\' / \'||t.name stype,
-       to_char(m.dat, \'YYYY/MM\') smies,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join organization o on o.id = a.organization_id
-    join currency c on c.id = a.currency_id
-where c.code = \'PLN\'
-group by rollup (saccount, skind, stype, smies)
-order by saccount nulls last, skind nulls last, stype nulls last, smies desc nulls last',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        55 => [
-            'title' => 'Minus-kind,mies(PLN)',
-            'sql1' => '
-select qkind skind,
-       qmies smies,
-       qvalue nvalue,
-       round(qpart * 100) "npart%",
-       to_char(round(qperday / public.ndayinmonth(qmies)), \'999 999 990"."99\') "nper/day"
-from (
-select k.name qkind,
-       to_char(m.dat, \'YYYY/MM\') qmies,
-       to_char(sum(m.value), \'999 999 990"."99\') qvalue,
-       sum(m.value)::numeric / last_value(sum(m.value)) over (partition by k.name) qpart,
-       sum(m.value)::numeric qperday
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join currency c on c.id = a.currency_id
-where c.code = \'PLN\'
-group by rollup (qkind, qmies)
-) q
-order by skind nulls last, smies desc nulls last',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        56 => [
-            'title' => 'Minus-mies,kind(PLN)',
-            'sql1' => '
-select to_char(m.dat, \'YYYY/MM\') smies,
-       k.name skind,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join currency c on c.id = a.currency_id
-where c.code = \'PLN\'
-group by rollup (smies, skind)
-order by smies desc nulls last, skind nulls last',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        57 => [
-            'title' => 'xxx',
-            'sql1' => '
-select to_char(m.dat, \'YYYY/MM\') smies,
-       k.name skind,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join currency c on c.id = a.currency_id
-where c.code = \'PLN\'
-group by rollup (smies, skind)
-order by smies desc nulls last, skind nulls last',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        58 => [
-            'title' => 'Minus-day,kind(PLN)',
-            'sql1' => '
-select to_char(m.dat, \'YYYY/MM/DD\') sday,
-       k.name skind,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join currency c on c.id = a.currency_id
-where c.code = \'PLN\'
-group by rollup (sday, skind)
-order by sday desc nulls last, skind nulls last',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
+            'additional' => '',
+            'list' => [
                 1 => [
                     'name' => 'Main',
                     'sql' => '',
@@ -884,143 +757,148 @@ order by sday desc nulls last, skind nulls last',
         60 => [
             'title' => 'CorrectData',
         ],
-        61 => [
-            'title' => 'Type, Transaction, Account',
-            'sql1' => '
-select k.name||\' / \'||t.name stype,
-       r.name stransaction,
-       o.name||\' / \'||a.name saccount,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
-       count(*) nile,
-       m.comment scomment
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join transaction r on r.id = m.transaction_id
-    join account a on a.id = m.account_id
-    join organization o on o.id = a.organization_id
-    join currency c on c.id = a.currency_id
-group by stype, stransaction, saccount, scomment
-order by scomment, stype, stransaction, saccount',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        62 => [
-            'title' => 'Transaction, Account',
-            'sql1' => '
-select r.name stransaction,
-       o.name||\' / \'||a.name saccount,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
-       count(*) nile,
-       m.comment scomment
-from minus m
-    join transaction r on r.id = m.transaction_id
-    join account a on a.id = m.account_id
-    join organization o on o.id = a.organization_id
-    join currency c on c.id = a.currency_id
-group by stransaction, saccount, scomment
-order by scomment, stransaction, saccount',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        63 => [
-            'title' => 'Type, Account',
-            'sql1' => '
-select k.name||\' / \'||t.name stype,
-       o.name||\' / \'||a.name saccount,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
-       count(*) nile,
-       m.comment scomment
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join account a on a.id = m.account_id
-    join organization o on o.id = a.organization_id
-    join currency c on c.id = a.currency_id
-group by stype, saccount, scomment
-order by scomment, stype, saccount',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        64 => [
-            'title' => 'Type, Transaction',
-            'sql1' => '
-select k.name||\' / \'||t.name stype,
-       r.name stransaction,
-       to_char(sum(m.value), \'999 999 990"."99\') nvalue,
-       count(*) nile,
-       m.comment scomment
-from minus m
-    join type t on t.id = m.type_id
-    join kind k on k.id = t.kind_id
-    join transaction r on r.id = m.transaction_id
-group by stype, stransaction, scomment
-order by scomment, stype, stransaction',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
         70 => [
             'title' => 'Database',
         ],
-        71 => [
-            'title' => 'Databases',
-            'sql1' => '
-select oid as noid,
-       datname as sdatname,
-       datallowconn as sdatallowconn,
-       datconnlimit as ndatconnlimit
-from pg_database
-order by datname',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
-        72 => [
-            'title' => 'Schemas',
-            'sql1' => '
-select s.nspname as snspname,
-       s.oid as noid,
-       u.usename as susename
-from pg_catalog.pg_namespace s
-    join pg_catalog.pg_user u on u.usesysid = s.nspowner
-order by nspname',
-            'sql2' => '',
-            'sql3' => '',
-            'sql5' => [
-                1 => [
-                    'name' => 'Main',
-                    'sql' => '',
-                ],
-            ],
-        ],
     ];
+
+    public function __construct()
+    {
+        $this->sqlArray[54] = [
+            'title' => 'Minus-account,kind,type,mies(PLN)',
+            'primary' => $this->s('SqlTable54primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[55] = [
+            'title' => 'Minus-kind,mies(PLN)',
+            'primary' => $this->s('SqlTable55primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[56] = [
+            'title' => 'Minus-mies,kind(PLN)',
+            'primary' => $this->s('SqlTable56primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[57] = [
+            'title' => 'xxx',
+            'primary' => $this->s('SqlTable57primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[58] = [
+            'title' => 'Minus-day,kind(PLN)',
+            'primary' => $this->s('SqlTable58primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[61] = [
+            'title' => 'Type, Transaction, Account',
+            'primary' => $this->s('SqlTable61primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[62] = [
+            'title' => 'Transaction, Account',
+            'primary' => $this->s('SqlTable62primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[63] = [
+            'title' => 'Type, Account',
+            'primary' => $this->s('SqlTable63primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[64] = [
+            'title' => 'Type, Transaction',
+            'primary' => $this->s('SqlTable64primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[71] = [
+            'title' => 'Databases',
+            'primary' => $this->s('SqlTable71primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+
+        $this->sqlArray[72] = [
+            'title' => 'Schemas',
+            'primary' => $this->s('SqlTable72primary.sql'),
+            'additional' => '',
+            'list' => [
+                1 => [
+                    'name' => 'Main',
+                    'sql' => '',
+                ],
+            ],
+        ];
+    }
+
+    protected function s(string $filename = ''): string
+    {
+        return file_get_contents(dirname(__DIR__, 2) . '/Table/' . $filename);
+    }
 }
